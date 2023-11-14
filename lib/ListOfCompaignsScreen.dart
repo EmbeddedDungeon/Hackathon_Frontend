@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'CompanyParametersScreen.dart';
-class ListOfCompaniesScreen extends StatelessWidget {
+import 'CompaignParametersScreen.dart';
+class ListOfCompaignsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +23,7 @@ class ListOfCompaniesScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CompanyParametersScreen(),
+                  builder: (context) => CompaignParametersScreen(),
                 ),
               );
             },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'ListOfCompaniesScreen.dart';
+import 'ListOfCompaignsScreen.dart';
 import 'main.dart';
 
 class AuthenticationScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
         //if (user.email == 'user1@example.com') {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => ListOfCompaniesScreen(),
+          builder: (context) => ListOfCompaignsScreen(),
         ));
         //}
       }

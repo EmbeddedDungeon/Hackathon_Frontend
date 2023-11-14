@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AnimalSubspeciesScreen extends StatelessWidget {
+class AnimalFamilyScreen extends StatelessWidget {
   final String animalFamily;
 
-  AnimalSubspeciesScreen({required this.animalFamily});
+  AnimalFamilyScreen({required this.animalFamily});
 
   @override
   Widget build(BuildContext context) {

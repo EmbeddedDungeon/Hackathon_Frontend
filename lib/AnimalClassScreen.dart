@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'AnimalSubspeciesScreen.dart';
+import 'AnimalFamilyScreen.dart';
 
 class AnimalClassScreen extends StatelessWidget {
   final String animalClass;
@@ -67,7 +67,7 @@ class AnimalClassScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AnimalSubspeciesScreen(animalFamily: animalFamily),
+        builder: (context) => AnimalFamilyScreen(animalFamily: animalFamily),
       ),
     );
   }

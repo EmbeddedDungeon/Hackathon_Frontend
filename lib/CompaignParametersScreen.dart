@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'AnimalClassScreen.dart';
 
-class CompanyParametersScreen extends StatelessWidget {
+class CompaignParametersScreen extends StatelessWidget {
   // List of animal types
   final List<String> animalClass = ["Mammals", "Amphibians", "Reptiles", "Birds", "Fish"];
 
