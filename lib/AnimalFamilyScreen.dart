@@ -54,7 +54,7 @@ class AnimalFamilyScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddFicheScreen(),
+                        builder: (context) => AddFiche(),
                       ),
                     );
                   },
