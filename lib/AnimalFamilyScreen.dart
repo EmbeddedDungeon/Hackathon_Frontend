@@ -1,5 +1,6 @@
 // AnimalFamilyScreen.dart
 import 'package:flutter/material.dart';
+import 'AddFicheScreen.dart';
 import 'FicheScreen.dart';
 
 class AnimalFamilyScreen extends StatelessWidget {
@@ -48,10 +49,16 @@ class AnimalFamilyScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Add logic to show the "Add Element" notification
+                    print("Hi there, add me (to AddFiche)!");
                     _showAddElementNotification(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFicheScreen(),
+                      ),
+                    );
                   },
-                  child: Icon(Icons.add),
+                  child: Icon(Icons.add), // + button
                 ),
               ],
             ),
