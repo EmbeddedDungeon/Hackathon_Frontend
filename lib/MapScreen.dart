@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart'; // Добавлен импорт
 
-class MapScreen extends StatelessWidget {
+const EARTH_RADIUS = 6371000.0; // Радиус Земли в метрах
+
+class MapScreen extends StatefulWidget {
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  late Distance distance;
+
   @override
   Widget build(BuildContext context) {
-    // Создайте контроллер карты
-    GoogleMapController mapController;
-
-    // Начальные координаты (пример - центр города Нью-Йорка)
-    LatLng initialCameraPosition = LatLng(40.7128, -74.0060);
-
-    // Создайте список маркеров (пример - точка в центре карты)
-    Set<Marker> markers = {
-      Marker(
-        markerId: MarkerId("1"),
-        position: initialCameraPosition,
-        infoWindow: InfoWindow(title: "Marker Title", snippet: "Marker Snippet"),
+    return FlutterMap(
+      options: MapOptions(
       ),
-    };
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Map Screen"),
-      ),
-      body: GoogleMap(
-        onMapCreated: (controller) {
-          mapController = controller;
-        },
-        initialCameraPosition: CameraPosition(
-          target: initialCameraPosition,
-          zoom: 12.0, // Уровень масштабирования карты
+      children: [
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          userAgentPackageName: 'com.example.app',
         ),
-        markers: markers,
-      ),
+        RichAttributionWidget(
+          attributions: [
+            TextSourceAttribution(
+              'OpenStreetMap contributors',
+              onTap: () => launchUrl(Uri.parse('https://openstreetmap.org/copyright')), // Используем launchUrl
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

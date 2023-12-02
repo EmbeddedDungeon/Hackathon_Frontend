@@ -30,9 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
+  flutter_map: any #последния версия пакета
+  latlong2: any #этот пакет нужно подключить для вызова объекта LatLng
+  url_launcher: any
+# The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   path_provider: ^2.0.4
   cupertino_icons: ^1.0.2
