@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'AnimalClassScreen.dart';
+import 'MapScreen.dart'; // Импортируем файл MapScreen.dart
 
 class CompaignParametersScreen extends StatelessWidget {
-  // List of animal types
   final List<String> animalClass = ["Mammals", "Amphibians", "Reptiles", "Birds", "Fish"];
 
   @override
@@ -44,6 +44,27 @@ class CompaignParametersScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 50.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.map),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen(), // Переход к MapScreen при нажатии кнопки "Map"
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

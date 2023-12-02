@@ -1,4 +1,6 @@
+// AnimalFamilyScreen.dart
 import 'package:flutter/material.dart';
+import 'FicheScreen.dart';
 
 class AnimalFamilyScreen extends StatelessWidget {
   final String animalFamily;
@@ -9,7 +11,6 @@ class AnimalFamilyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text("$animalFamily Family"),
         backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
       ),
@@ -29,19 +30,22 @@ class AnimalFamilyScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                // List of animal subspecies for the selected type
-                ListTile(
-                  title: Text("Species 1"),
-                  // Add more details as needed, e.g., images
+                // ListTile with a GestureDetector to navigate to FicheScreen
+                GestureDetector(
+                  onTap: () {
+                    // Navigate to FicheScreen when the list item is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FicheScreen()),
+                    );
+                  },
+                  child: ListTile(
+                    title: Text("Species 1"),
+                  ),
                 ),
-                ListTile(
-                  title: Text("Species 2"),
-                  // Add more details as needed, e.g., images
-                ),
-                // Add more animal subspecies items as needed
+                // Add more ListTiles with GestureDetector for other species
 
                 SizedBox(height: 20),
-
                 ElevatedButton(
                   onPressed: () {
                     // Add logic to show the "Add Element" notification
