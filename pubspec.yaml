@@ -33,6 +33,9 @@ dependencies:
   flutter_map: any #последния версия пакета
   latlong2: any #этот пакет нужно подключить для вызова объекта LatLng
   url_launcher: any
+  geolocator: any
+
+  flutter_map_marker_cluster: any
 # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   path_provider: ^2.0.4
