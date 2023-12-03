@@ -111,7 +111,7 @@ class _MapScreenState extends State<MapScreen> {
               },
             );
           },
-          child: Image.asset('assets/icons/map_point.png'),
+          child: Image.asset('lib/assets/images/point.png'),
         ),
       ),
     )

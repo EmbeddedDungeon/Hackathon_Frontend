@@ -73,7 +73,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 0.0),
               child: Image.asset(
-                'assets/images/logo.png',
+                'lib/assets/images/logo.png',
                 width: 100,
               ),
             ),
