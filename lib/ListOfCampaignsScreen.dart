@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'AddCampaignScreen.dart';
-import 'CompaignParametersScreen.dart';
+import 'CampaignDetailsScreen.dart';
 class ListOfCompaignsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
