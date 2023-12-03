@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'LocationPickerScreen.dart';
 class AddFiche extends StatefulWidget {
   @override
@@ -11,6 +13,24 @@ class _AddFicheState extends State<AddFiche> {
   TimeOfDay selectedTime = TimeOfDay.now();
   String animalName = '';
   LatLng? selectedLocation;
+  List<XFile> images = [];
+
+  Future<void> _pickImages() async {
+    final picker = ImagePicker();
+    final pickedImages = await picker.pickMultiImage();
+
+    if (pickedImages != null) {
+      setState(() {
+        images.addAll(pickedImages);
+      });
+    }
+  }
+
+  void _removeImage(int index) {
+    setState(() {
+      images.removeAt(index);
+    });
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -53,6 +73,7 @@ class _AddFicheState extends State<AddFiche> {
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,16 +132,48 @@ class _AddFicheState extends State<AddFiche> {
                   : Container(),
               SizedBox(height: 20),
               ElevatedButton(
+                onPressed: _pickImages,
+                child: Text('Add Photos'),
+              ),
+              SizedBox(height: 10),
+              images.isNotEmpty
+                  ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: images.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final image = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Stack(
+                      children: [
+                        Image.file(
+                          File(image.path),
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () => _removeImage(index),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              )
+                  : Container(),
+              SizedBox(height: 20),
+              ElevatedButton(
                 onPressed: () {
-                  // Add logic to save the fiche information
-                  // For example, save data to database or perform necessary actions
-                  // You can add your logic here
-                  // Once done, you might want to navigate back to the previous screen
+                  // Save Fiche logic
                   Navigator.pop(context); // Close the AddFicheScreen
                 },
                 child: Text('Save Fiche'),
               ),
-              // TODO: Добавьте элементы для загрузки фотографий и записи наблюдений
             ],
           ),
         ),
@@ -129,5 +182,4 @@ class _AddFicheState extends State<AddFiche> {
   }
 }
 
-// LocationPickerScreen class implementation goes here
 
