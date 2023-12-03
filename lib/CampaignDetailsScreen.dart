@@ -1,50 +1,313 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'AnimalClassScreen.dart';
-import 'MapScreen.dart'; // Импортируем файл MapScreen.dart
+import 'MapScreen.dart';
+import 'assets/dto/EachCampaignDto.dart';
 
-class CompaignParametersScreen extends StatelessWidget {
-  final List<String> animalClass = ["Mammals", "Amphibians", "Reptiles", "Birds", "Fish"];
+// class CampaignDetailsScreen extends StatelessWidget {
+//   final List<String> animalClass = ["Mammals", "Amphibians", "Reptiles", "Birds", "Fish"];
+//   final CampaignDto campagneId;
+//
+//   CampaignDetailsScreen(this.campagneId);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Company Parameters:"),
+//         backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
+//       ),
+//       body: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: Text(
+//               "Animal Class",
+//               style: TextStyle(
+//                 fontSize: 20,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             child: ListView.builder(
+//               itemCount: animalClass.length,
+//               itemBuilder: (context, index) {
+//                 return ListTile(
+//                   title: Text(animalClass[index]),
+//                   onTap: () {
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                         builder: (context) => AnimalClassScreen(animalClass: animalClass[index]),
+//                       ),
+//                     );
+//                   },
+//                 );
+//               },
+//             ),
+//           ),
+//         ],
+//       ),
+//       bottomNavigationBar: BottomAppBar(
+//         child: Container(
+//           height: 50.0,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               IconButton(
+//                 icon: Icon(Icons.map),
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => MapScreen(), // Переход к MapScreen при нажатии кнопки "Map"
+//                     ),
+//                   );
+//                 },
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class CampaignDetailsScreen extends StatefulWidget {
+  final int campagneId;
+
+  CampaignDetailsScreen(this.campagneId);
+
+  @override
+  _CampaignDetailsScreenState createState() => _CampaignDetailsScreenState();
+}
+
+class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
+  EachCampaignDto? _campaignDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCampaignDetails(); // Вызываем метод загрузки деталей кампании при инициализации виджета
+  }
+
+  Future<void> _fetchCampaignDetails() async {
+    // Hardcoded response for simulation
+    final response = '''
+      {
+        "campagneId": 1,
+        "name": "Campagne1",
+        "description": "Une campagne bénévole..",
+        "groupes": [
+          {"id": 1, "nom": "Amphibiens"},
+          {"id": 2, "nom": "Reptiles"}
+        ],
+        "communes": [
+          {"id": 1, "nom": "Cesson-Sevigné"},
+          {"id": 2, "nom": "Roubaix"}
+        ]
+      }
+    ''';
+
+    setState(() {
+      _campaignDetails = EachCampaignDto.fromJson(response);
+    });
+
+    // Uncomment the following section for actual API call
+    // final url = Uri.parse('http://192.168.137.247:8080/campagne');
+    // final response = await http.get(url, headers: {'campagneId': widget.campagneId.toString()});
+    // if (response.statusCode == 200) {
+    //   setState(() {
+    //     _campaignDetails = EachCampaignDto.fromJson(response.body);
+    //   });
+    // } else {
+    //   // Handle error response
+    // }
+  }
+
+  // ???
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text("Campaigne details:"),
+  //       backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
+  //     ),
+  //     body: _campaignDetails == null
+  //         ? Center(
+  //             child: CircularProgressIndicator()) // Show a loading indicator
+  //         : Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Padding(
+  //                 padding: const EdgeInsets.all(16.0),
+  //                 child: Text(
+  //                   "Animal group",
+  //                   style: TextStyle(
+  //                     fontSize: 20,
+  //                     fontWeight: FontWeight.bold,
+  //                   ),
+  //                 ),
+  //               ),
+  //               Expanded(
+  //                 child: ListView.builder(
+  //                   itemCount: _campaignDetails!.groupes.length,
+  //                   itemBuilder: (context, index) {
+  //                     return ListTile(
+  //                       title: Text(_campaignDetails!.groupes[index].nom),
+  //                       onTap: () {
+  //                         Navigator.push(
+  //                           context,
+  //                           MaterialPageRoute(
+  //                             builder: (context) => AnimalClassScreen(
+  //                               animalClass:
+  //                                   _campaignDetails!.groupes[index].nom,
+  //                             ),
+  //                           ),
+  //                         );
+  //                       },
+  //                     );
+  //                   },
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //     bottomNavigationBar: BottomAppBar(
+  //       child: Container(
+  //         height: 50.0,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             IconButton(
+  //               icon: Icon(Icons.map),
+  //               onPressed: () {
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                     builder: (context) => MapScreen(),
+  //                   ),
+  //                 );
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Company Parameters:"),
+        title: Text("Campaigne details:"),
         backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "Animal Class",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      body: _campaignDetails == null
+          ? Center(
+              child: CircularProgressIndicator()) // Show a loading indicator
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Name: ${_campaignDetails!.name}",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text(
+                      "Description: ${_campaignDetails!.description}",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Animal group",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _campaignDetails!.groupes.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(_campaignDetails!.groupes[index].nom),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AnimalClassScreen(
+                                  animalClass:
+                                      _campaignDetails!.groupes[index].nom,
+                                ),
+                              ),
+                            );
+                          },
+                          trailing: IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () {
+                              setState(() {
+                                _campaignDetails!.groupes.removeAt(index);
+                              });
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _campaignDetails!.groupes
+                              .add(Groupes(id: 3, nom: "New Group")); // CHANGE
+                        });
+                      },
+                      child: Text("Add group"),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Communes",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _campaignDetails!.communes.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(_campaignDetails!.communes[index].nom),
+                          trailing: IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () {
+                              setState(() {
+                                _campaignDetails!.communes.removeAt(index);
+                              });
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _campaignDetails!.communes
+                              .add(Communes(id: 3, nom: "New Commune"));
+                        });
+                      },
+                      child: Text("Add commune"),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: animalClass.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(animalClass[index]),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AnimalClassScreen(animalClass: animalClass[index]),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
           height: 50.0,
@@ -57,7 +320,7 @@ class CompaignParametersScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MapScreen(), // Переход к MapScreen при нажатии кнопки "Map"
+                      builder: (context) => MapScreen(),
                     ),
                   );
                 },
