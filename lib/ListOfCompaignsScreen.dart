@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'AddCampaignScreen.dart';
 import 'CompaignParametersScreen.dart';
 class ListOfCompaignsScreen extends StatelessWidget {
   @override
@@ -34,6 +35,12 @@ class ListOfCompaignsScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               _showAddElementNotification(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddCampaignScreen(), // Переход к экрану AddCampaign при нажатии кнопки "Add"
+                ),
+              );
             },
             child: Icon(Icons.add),
           ),
