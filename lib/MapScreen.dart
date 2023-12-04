@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'CompassService.dart';
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
@@ -15,12 +15,24 @@ class _MapScreenState extends State<MapScreen> {
   late final MapController _mapController;
   double coordUserLatitude = 0;
   double coordUserLongitude = 0;
+  late CompassService  _compassReader;
 
   @override
   void initState() {
     _mapController = MapController();
-    super.initState();
+    _compassReader = CompassService(_updateCompassAngle); // Инициализируем CompassReader
+    _compassReader.startReading();
     _takeUserGPSCoord();
+    super.initState();
+  }
+
+  void _updateCompassAngle() {
+    setState(() {}); // Вызываем setState для перестройки виджета при обновлении угла компаса
+  }
+  @override
+  void dispose() {
+    _compassReader.stopReading(); // Останавливаем чтение угла компаса
+    super.dispose();
   }
 
   void _takeUserGPSCoord() async {
@@ -38,16 +50,55 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
+  List<Marker> _getUserMarker(double compassAngle) {
+    return [
+      Marker(
+        point: LatLng(coordUserLatitude, coordUserLongitude),
+        width: 50,
+        height: 50,
+        builder: (context) {
+          return Transform.rotate(
+            angle: compassAngle * (3.14 / 180), // Угол в радианах
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Координаты'),
+                      content: Text(
+                        'Широта: $coordUserLatitude\nДолгота: $coordUserLongitude',
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Закрыть'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Image.asset('lib/assets/images/userpoint.png'),
+            ),
+          );
+        },
+      ),
+    ];
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final List<LatLng> _mapPoints = [
-      LatLng(coordUserLatitude, coordUserLongitude),
-      LatLng(55.755793, 37.617134),
-      LatLng(55.095960, 38.765519),
-      LatLng(56.129038, 40.406502),
-      LatLng(54.513645, 36.261268),
-      LatLng(54.193122, 37.617177),
-      LatLng(54.629540, 39.741809),
+      LatLng(49.123793, -1.644134),
+      LatLng(49.223793, -1.644134),
+      LatLng(49.323793, -1.644134),
+      LatLng(49.423793, -1.644134),
+      LatLng(49.523793, -1.644134),
+      LatLng(49.623793, -1.644134),
     ];
 
     return Scaffold(
@@ -69,7 +120,7 @@ class _MapScreenState extends State<MapScreen> {
             options: MarkerClusterLayerOptions(
               size: const Size(50, 50),
               maxClusterRadius: 50,
-              markers: _getMarkers(_mapPoints),
+              markers: _getUserMarker(_compassReader.getCompassAngle()) + _getMarkers(_mapPoints),
               builder: (_, markers) {
                 return _ClusterMarker(
                   markersLength: markers.length.toString(),
