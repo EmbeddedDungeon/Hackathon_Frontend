@@ -4,6 +4,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'CompassService.dart';
+import 'FicheScreen.dart';
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
@@ -20,15 +21,12 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     _mapController = MapController();
-    _compassReader = CompassService(_updateCompassAngle); // Инициализируем CompassReader
+    _compassReader = CompassService (); // Инициализируем CompassReader
     _compassReader.startReading();
     _takeUserGPSCoord();
     super.initState();
   }
 
-  void _updateCompassAngle() {
-    setState(() {}); // Вызываем setState для перестройки виджета при обновлении угла компаса
-  }
   @override
   void dispose() {
     _compassReader.stopReading(); // Останавливаем чтение угла компаса
@@ -142,24 +140,11 @@ class _MapScreenState extends State<MapScreen> {
         height: 50,
         builder: (context) => GestureDetector(
           onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Координаты'),
-                  content: Text(
-                    'Широта: ${point.latitude}\nДолгота: ${point.longitude}',
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Закрыть'),
-                    ),
-                  ],
-                );
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FicheScreen(ficheId: 1),
+              ),
             );
           },
           child: Image.asset('lib/assets/images/point.png'),

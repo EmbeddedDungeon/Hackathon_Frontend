@@ -244,6 +244,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                                 builder: (context) => GroupDetailsScreen(
                                   campagneId: _campaignDetails!.campagneId,
                                   groupId: _campaignDetails!.groupes[index].id,
+
                                 ),
                               ),
                             );
