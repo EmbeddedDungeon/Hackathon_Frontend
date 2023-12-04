@@ -162,7 +162,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => FamilyDetailsScreen(
-                          animalFamily: _groupDetails!.animalNames[index],
+                          campagneId: _groupDetails!.campagneId,
+                          groupId: _groupDetails!.groupeId,
+                          animalName: _groupDetails!.animalNames[index],
                         ),
                       ),
                     );

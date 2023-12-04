@@ -106,7 +106,7 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("List of Companies"),
+        title: Text("List of Campaigns"),
         backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
       ),
       body: ListView.builder(

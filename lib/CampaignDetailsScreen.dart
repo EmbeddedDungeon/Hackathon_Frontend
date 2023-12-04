@@ -203,7 +203,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Campaigne Details:"),
+        title: Text("Campaigne Details"),
         backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
       ),
       body: _campaignDetails == null
