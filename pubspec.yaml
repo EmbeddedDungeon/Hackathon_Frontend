@@ -34,6 +34,8 @@ dependencies:
   latlong2: any #этот пакет нужно подключить для вызова объекта LatLng
   url_launcher: any
   geolocator: any
+  sensors: any
+  flutter_compass: any
 
   flutter_map_marker_cluster: any
 # The following adds the Cupertino Icons font to your application.
@@ -72,6 +74,7 @@ flutter:
   assets:
     - lib/assets/images/point.png
     - lib/assets/images/logo.png
+    - lib/assets/images/userpoint.png
     # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

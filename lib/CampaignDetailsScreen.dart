@@ -61,111 +61,130 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Campaigne Details"),
-        backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
+        title: Text("Campaign Details"),
+        backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
       ),
       body: _campaignDetails == null
           ? Center(
-              child: CircularProgressIndicator()) // Show a loading indicator
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Name: ${_campaignDetails!.name}",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    Text(
-                      "Description: ${_campaignDetails!.description}",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      "Groups",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _campaignDetails!.groupes.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(_campaignDetails!.groupes[index].nom),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GroupDetailsScreen(
-                                  campagneId: _campaignDetails!.campagneId,
-                                  groupId: _campaignDetails!.groupes[index].id,
-                                ),
-                              ),
-                            );
-                          },
-                          trailing: IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () {
-                              setState(() {
-                                _campaignDetails!.groupes.removeAt(index);
-                              });
-                            },
+        child: CircularProgressIndicator(),
+      )
+          : Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Name: ${_campaignDetails!.name}",
+              style: TextStyle(fontSize: 18),
+            ),
+            Text(
+              "Description: ${_campaignDetails!.description}",
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Groups",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _campaignDetails!.groupes.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 3,
+                    child: ListTile(
+                      dense: true, // Уменьшаем высоту ListTile
+                      title: Text(_campaignDetails!.groupes[index].nom),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GroupDetailsScreen(
+                              campagneId: _campaignDetails!.campagneId,
+                              groupId: _campaignDetails!.groupes[index].id,
+                            ),
                           ),
                         );
                       },
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _campaignDetails!.groupes
-                              .add(Groupes(id: 3, nom: "New Group")); // CHANGE
-                        });
-                      },
-                      child: Text("Add group"),
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      "Communes",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      trailing: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            _campaignDetails!.groupes.removeAt(index);
+                          });
+                        },
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _campaignDetails!.communes.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(_campaignDetails!.communes[index].nom),
-                          trailing: IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () {
-                              setState(() {
-                                _campaignDetails!.communes.removeAt(index);
-                              });
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _campaignDetails!.communes
-                              .add(Communes(id: 3, nom: "New Commune"));
-                        });
-                      },
-                      child: Text("Add commune"),
-                    ),
-                  ],
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 10),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _campaignDetails!.groupes.add(Groupes(id: 3, nom: "New Group"));
+                  });
+                },
+                child: Text("Add group", style: TextStyle(color: Colors.black)),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(255, 240, 213, 1.0),
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 ),
               ),
             ),
+            SizedBox(height: 20),
+            Text(
+              "Communes",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _campaignDetails!.communes.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 3,
+                    child: ListTile(
+                      dense: true, // Уменьшаем высоту ListTile
+                      title: Text(_campaignDetails!.communes[index].nom),
+                      trailing: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            _campaignDetails!.communes.removeAt(index);
+                          });
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 10),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _campaignDetails!.communes.add(Communes(id: 3, nom: "New Commune"));
+                  });
+                },
+                child: Text("Add commune", style: TextStyle(color: Colors.black)),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(255, 240, 213, 1.0),
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
           height: 50.0,
@@ -189,4 +208,6 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
       ),
     );
   }
+
+
 }
