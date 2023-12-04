@@ -3,6 +3,33 @@ import 'package:latlong2/latlong.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'LocationPickerScreen.dart';
+import 'package:http/http.dart' as http; // Добавляем импорт для работы с HTTP
+
+class ImageUploader {
+  Future<bool> uploadImages(List<File> images) async {
+    // Здесь нужно заменить URL на ваш адрес сервера
+    const String apiUrl = 'http://192.168.137.1:8080/upload'; // Замените на ваш URL
+
+    try {
+      for (var image in images) {
+        var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+        request.files.add(
+          await http.MultipartFile.fromPath('image', image.path),
+        );
+
+        var response = await request.send();
+        if (response.statusCode != 200) {
+          return false; // Если одна из загрузок не удалась, возвращаем false
+        }
+      }
+      return true; // Если все изображения были успешно загружены
+    } catch (e) {
+      print('Error uploading images: $e');
+      return false; // Если произошла ошибка при загрузке
+    }
+  }
+}
+
 class AddFiche extends StatefulWidget {
   @override
   _AddFicheState createState() => _AddFicheState();
@@ -74,6 +101,15 @@ class _AddFicheState extends State<AddFiche> {
     }
   }
 
+  // Метод, который преобразует список XFile в список File
+  List<File> convertXFilesToFiles(List<XFile> xFiles) {
+    List<File> files = [];
+    for (var xFile in xFiles) {
+      File file = File(xFile.path);
+      files.add(file);
+    }
+    return files;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,10 +203,29 @@ class _AddFicheState extends State<AddFiche> {
               )
                   : Container(),
               SizedBox(height: 20),
+
+
               ElevatedButton(
-                onPressed: () {
-                  // Save Fiche logic
-                  Navigator.pop(context); // Close the AddFicheScreen
+                onPressed: () async {
+                  ImageUploader uploader = ImageUploader();
+
+                  if (images.isNotEmpty) {
+                    // Преобразование списка XFile в список File
+                    List<File> files = convertXFilesToFiles(images);
+
+                    // Загрузка изображений на сервер с помощью ImageUploader
+                    bool uploaded = await uploader.uploadImages(files);
+                    if (uploaded) {
+                      print('Изображения успешно загружены на сервер');
+                      // Дополнительные действия после успешной загрузки, если нужно
+                    } else {
+                      print('Ошибка при загрузке изображений на сервер');
+                      // Обработка ошибки загрузки, если нужно
+                    }
+                  }
+
+                  // Закрытие экрана AddFiche
+                  Navigator.pop(context);
                 },
                 child: Text('Save Fiche'),
               ),
@@ -181,5 +236,3 @@ class _AddFicheState extends State<AddFiche> {
     );
   }
 }
-
-
