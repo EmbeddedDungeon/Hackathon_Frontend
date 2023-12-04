@@ -1,12 +1,12 @@
-// AnimalFamilyScreen.dart
+// FamilyDetailsScreen.dart
 import 'package:flutter/material.dart';
 import 'AddFicheScreen.dart';
 import 'FicheScreen.dart';
 
-class AnimalFamilyScreen extends StatelessWidget {
+class FamilyDetailsScreen extends StatelessWidget {
   final String animalFamily;
 
-  AnimalFamilyScreen({required this.animalFamily});
+  FamilyDetailsScreen({required this.animalFamily});
 
   @override
   Widget build(BuildContext context) {

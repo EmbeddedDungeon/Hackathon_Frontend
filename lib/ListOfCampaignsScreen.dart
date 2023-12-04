@@ -27,7 +27,7 @@ import 'assets/dto/CampaignDto.dart';
 //               Navigator.push(
 //                 context,
 //                 MaterialPageRoute(
-//                   builder: (context) => CompaignParametersScreen(),
+//                   builder: (context) => CampaignDetailsScreen(),
 //                 ),
 //               );
 //             },

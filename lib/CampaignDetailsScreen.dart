@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'AnimalClassScreen.dart';
+import 'GroupDetailsScreen.dart';
 import 'MapScreen.dart';
 import 'assets/dto/EachCampaignDto.dart';
 
 // class CampaignDetailsScreen extends StatelessWidget {
-//   final List<String> animalClass = ["Mammals", "Amphibians", "Reptiles", "Birds", "Fish"];
+//   final List<String> animalGroup = ["Mammals", "Amphibians", "Reptiles", "Birds", "Fish"];
 //   final CampaignDto campagneId;
 //
 //   CampaignDetailsScreen(this.campagneId);
@@ -33,15 +33,15 @@ import 'assets/dto/EachCampaignDto.dart';
 //           ),
 //           Expanded(
 //             child: ListView.builder(
-//               itemCount: animalClass.length,
+//               itemCount: animalGroup.length,
 //               itemBuilder: (context, index) {
 //                 return ListTile(
-//                   title: Text(animalClass[index]),
+//                   title: Text(animalGroup[index]),
 //                   onTap: () {
 //                     Navigator.push(
 //                       context,
 //                       MaterialPageRoute(
-//                         builder: (context) => AnimalClassScreen(animalClass: animalClass[index]),
+//                         builder: (context) => GroupDetailsScreen(animalGroup: animalGroup[index]),
 //                       ),
 //                     );
 //                   },
@@ -133,7 +133,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
   // Widget build(BuildContext context) {
   //   return Scaffold(
   //     appBar: AppBar(
-  //       title: Text("Campaigne details:"),
+  //       title: Text("Campaigne Details:"),
   //       backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
   //     ),
   //     body: _campaignDetails == null
@@ -162,8 +162,8 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
   //                         Navigator.push(
   //                           context,
   //                           MaterialPageRoute(
-  //                             builder: (context) => AnimalClassScreen(
-  //                               animalClass:
+  //                             builder: (context) => GroupDetailsScreen(
+  //                               animalGroup:
   //                                   _campaignDetails!.groupes[index].nom,
   //                             ),
   //                           ),
@@ -203,7 +203,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Campaigne details:"),
+        title: Text("Campaigne Details:"),
         backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
       ),
       body: _campaignDetails == null
@@ -225,7 +225,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "Animal group",
+                      "Groups",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -241,9 +241,9 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AnimalClassScreen(
-                                  animalClass:
-                                      _campaignDetails!.groupes[index].nom,
+                                builder: (context) => GroupDetailsScreen(
+                                  campagneId: _campaignDetails!.campagneId,
+                                  groupId: _campaignDetails!.groupes[index].id,
                                 ),
                               ),
                             );
