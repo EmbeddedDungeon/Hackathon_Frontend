@@ -3,30 +3,46 @@ import 'package:latlong2/latlong.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'LocationPickerScreen.dart';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http; // Добавляем импорт для работы с HTTP
 
 class ImageUploader {
   Future<bool> uploadImages(List<File> images) async {
-    // Здесь нужно заменить URL на ваш адрес сервера
-    const String apiUrl = 'http://192.168.137.1:8080/upload'; // Замените на ваш URL
+    const String serverAddress = '192.168.137.121';
+    const int serverPort = 8080;
 
     try {
-      for (var image in images) {
-        var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-        request.files.add(
-          await http.MultipartFile.fromPath('image', image.path),
-        );
+      Socket socket = await Socket.connect(serverAddress, serverPort);
 
-        var response = await request.send();
-        if (response.statusCode != 200) {
-          return false; // Если одна из загрузок не удалась, возвращаем false
-        }
+      for (var imageFile in images) {
+        XFile xFile = XFile(imageFile.path);
+        File image = File(xFile.path);
+        Uint8List bytes = await image.readAsBytes();
+
+        // Отправка размера изображения
+        socket.add(bytes.lengthInBytes.toBytes());
+        // Отправка самих данных изображения
+        socket.add(bytes);
       }
-      return true; // Если все изображения были успешно загружены
+
+      // Закрытие сокета после отправки всех изображений
+      socket.close();
+
+      return true; // Если все изображения были успешно отправлены
     } catch (e) {
       print('Error uploading images: $e');
-      return false; // Если произошла ошибка при загрузке
+      return false; // Если произошла ошибка при отправке
     }
+  }
+}
+
+// Преобразование числа в массив байтов (Uint8List)
+extension IntToBytes on int {
+  Uint8List toBytes() {
+    var byteData = Uint8List(4);
+    var buffer = ByteData.view(byteData.buffer);
+    buffer.setInt32(0, this, Endian.big);
+    return byteData;
   }
 }
 
