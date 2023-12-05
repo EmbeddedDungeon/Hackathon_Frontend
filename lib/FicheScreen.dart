@@ -74,99 +74,100 @@ class _FicheScreenState extends State<FicheScreen> {
       ),
       body: _ficheDetails == null
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('lib/assets/images/back.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/assets/images/back.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SingleChildScrollView(
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Description",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "${_ficheDetails!.description}",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "Date",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              // Date
-                              "${_ficheDetails!.date['day']}/${_ficheDetails!.date['month']}/${_ficheDetails!.date['year']}",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                            if (_ficheDetails!.coordX != null &&
-                                _ficheDetails!.coordY != null)
-                              SizedBox(height: 10),
-                            Text(
-                              // Coordinates
-                              "Coordonnées",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              // Coordinates
-                              "${_ficheDetails!.coordX}, ${_ficheDetails!.coordY}",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              // Comments
-                              "Commentaires",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        "Description",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "${_ficheDetails!.description}",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Date",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        // Date
+                        "${_ficheDetails!.date['day']}/${_ficheDetails!.date['month']}/${_ficheDetails!.date['year']}",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      if (_ficheDetails!.coordX != null &&
+                          _ficheDetails!.coordY != null)
+                        SizedBox(height: 10),
+                      Text(
+                        // Coordinates
+                        "Coordonnées",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        // Coordinates
+                        "${_ficheDetails!.coordX}, ${_ficheDetails!.coordY}",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        // Comments
+                        "Commentaires",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
                         // Comments list with scrollbar
                         height: MediaQuery.of(context).size.height * 0.6,
-                        child: ListView(
+                        child: ListView.builder(
                           shrinkWrap: true,
-                          children:
-                              _ficheDetails!.commentaires.map((commentaire) {
-                            return ListTile(
-                              title: Text(
-                                "${commentaire.userName} ${commentaire.userSurname}: ${commentaire.description}",
+                          itemCount: _ficheDetails!.commentaires.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              elevation: 3,
+                              color: Color.fromRGBO(252, 252, 252, 1),
+                              child: ListTile(
+                                title: Text(
+                                  "${_ficheDetails!.commentaires[index].userName} ${_ficheDetails!.commentaires[index].userSurname}: ${_ficheDetails!.commentaires[index].description}",
+                                ),
                               ),
                             );
-                          }).toList(),
+                          },
                         ),
                       ),
                       SizedBox(height: 20),
@@ -176,6 +177,11 @@ class _FicheScreenState extends State<FicheScreen> {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
     );
   }
+
+
 }

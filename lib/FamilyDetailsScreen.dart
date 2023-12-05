@@ -66,7 +66,6 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
     }
   }
 
-  // Works with old dto
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,6 +148,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
       ),
     );
   }
+
 
   void _showAddElementNotification(BuildContext context) {
     // Add logic to show a notification for adding a new element
