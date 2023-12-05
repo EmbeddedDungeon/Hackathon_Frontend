@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'CompassService.dart';
 import 'FicheScreen.dart';
+import 'assets/dto/MapFichesDto.dart';
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
@@ -25,6 +26,7 @@ class _MapScreenState extends State<MapScreen> {
     _compassReader.startReading();
     _takeUserGPSCoord();
     super.initState();
+    fetchData();
   }
 
   @override
@@ -87,6 +89,22 @@ class _MapScreenState extends State<MapScreen> {
     ];
   }
 
+  void fetchData() async {
+    int campagneId = 1; // Идентификатор кампании, для которой нужно получить координаты
+
+    List<CoordDto>? fetchedCoords = await FichesCoordsFetcher.fetchFichesCoords(campagneId);
+
+    if (fetchedCoords != null) {
+      // Делаем что-то с полученным списком координат
+      fetchedCoords.forEach((coord) {
+        print('Fiche ID: ${coord.ficheId}, CoordX: ${coord.coordX}, CoordY: ${coord.coordY}');
+        // Можно выполнять другие операции с координатами
+      });
+    } else {
+      // Обработка ошибки при получении координат
+      print('Failed to fetch coordinates');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

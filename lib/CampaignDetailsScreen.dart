@@ -94,7 +94,6 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                   return Card(
                     elevation: 3,
                     child: ListTile(
-                      dense: true, // Уменьшаем высоту ListTile
                       title: Text(_campaignDetails!.groupes[index].nom),
                       onTap: () {
                         Navigator.push(

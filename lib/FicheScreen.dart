@@ -53,59 +53,6 @@ class _FicheScreenState extends State<FicheScreen> {
     }
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text("${_ficheDetails?.ficheId ?? 'Species'}"),
-  //     ),
-  //     body: _ficheDetails == null
-  //         ? Center(
-  //       child: CircularProgressIndicator(), // Show a loading indicator
-  //     )
-  //         : SingleChildScrollView(
-  //       padding: EdgeInsets.all(16.0),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text(
-  //             "Name: ${_ficheDetails!.description}",
-  //             style: TextStyle(
-  //               fontSize: 20,
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //           SizedBox(height: 10),
-  //           Text(
-  //             "Date: ${_ficheDetails!.date['day']}/${_ficheDetails!.date['month']}/${_ficheDetails!.date['year']}",
-  //             style: TextStyle(
-  //               fontSize: 20,
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //           SizedBox(height: 20),
-  //           Text(
-  //             "Commentaires:",
-  //             style: TextStyle(
-  //               fontSize: 20,
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //           Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: _ficheDetails!.commentaires.map((commentaire) {
-  //               return ListTile(
-  //                 title: Text("${commentaire.userName} ${commentaire.userSurname}: ${commentaire.description}"),
-  //               );
-  //             }).toList(),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
