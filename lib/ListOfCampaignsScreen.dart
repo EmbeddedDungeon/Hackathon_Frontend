@@ -47,69 +47,17 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
     // ...
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text("Liste des Campagnes"),
-  //       backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
-  //     ),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: ListView.builder(
-  //         itemCount: _campaigns.length,
-  //         itemBuilder: (BuildContext context, int index) {
-  //           return Card(
-  //             elevation: 3,
-  //             child: ListTile(
-  //               title: Text(_campaigns[index].campagneName),
-  //               trailing: IconButton(
-  //                 icon: Icon(Icons.close),
-  //                 onPressed: () {
-  //                   // Add logic to delete the company
-  //                 },
-  //               ),
-  //               onTap: () {
-  //                 Navigator.push(
-  //                   context,
-  //                   MaterialPageRoute(
-  //                     builder: (context) =>
-  //                         CampaignDetailsScreen(_campaigns[index].campagneId),
-  //                   ),
-  //                 );
-  //               },
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //     floatingActionButton: FloatingActionButton(
-  //       onPressed: () {
-  //         _showAddElementNotification(context);
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => AddCampaignScreen(),
-  //           ),
-  //         );
-  //       },
-  //       child: Icon(Icons.add),
-  //       backgroundColor: Color.fromRGBO(255, 240, 213, 1.0),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Liste des Campagnes".toUpperCase()),
-        backgroundColor: Color.fromRGBO(228, 232, 244, 1.0),
+        title: Text("Liste des Campagnes"),
+        backgroundColor: Color.fromRGBO(237, 243, 255, 1.0),
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/assets/images/background-shadow.png'),
+            image: AssetImage('lib/assets/images/back.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -120,7 +68,7 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 elevation: 3,
-                // color: Color.fromRGBO(237, 242, 247, 1),
+                color: Color.fromRGBO(252, 252, 252, 1),
                 child: ListTile(
                   title: Text(_campaigns[index].campagneName),
                   trailing: IconButton(
@@ -155,7 +103,7 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
           );
         },
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(255, 240, 213, 1.0),
+        backgroundColor: Color.fromRGBO(255, 249, 236, 1.0),
       ),
     );
   }
