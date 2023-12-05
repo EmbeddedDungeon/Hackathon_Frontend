@@ -54,7 +54,9 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
     //     'animalName': widget.animalName,
     //   },
     // );
-    final url = Uri.parse('http://192.168.137.216:8080/campagne/groupe/animal/araignée');
+    final url = Uri.parse(
+        'http://192.168.137.216:8080/campagne/groupe/animal/' +
+            widget.animalName.toLowerCase());
     final response = await http.get(
       url,
       headers: {
@@ -73,65 +75,139 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
     }
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text("${_familyDetails?.animalName ?? 'Family'} Family"),
+  //       backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
+  //     ),
+  //     body: _familyDetails == null
+  //         ? Center(
+  //       child: CircularProgressIndicator(), // Show a loading indicator
+  //     )
+  //         : Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.all(16.0),
+  //           child: Text(
+  //             "Animal Species",
+  //             style: TextStyle(
+  //               fontSize: 20,
+  //               fontWeight: FontWeight.bold,
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           child: ListView.builder(
+  //             itemCount: _familyDetails!.fichesIds.length,
+  //             itemBuilder: (context, index) {
+  //               return GestureDetector(
+  //                 onTap: () {
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                       builder: (context) => FicheScreen(ficheId: _familyDetails!.fichesIds[index]),
+  //                     ),
+  //                   );
+  //                 },
+  //                 child: ListTile(
+  //                   title: Text("Species ${_familyDetails!.fichesIds[index]}"),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //         SizedBox(height: 20),
+  //         ElevatedButton(
+  //           onPressed: () {
+  //             _showAddElementNotification(context);
+  //             Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                 builder: (context) => AddFiche(),
+  //               ),
+  //             );
+  //           },
+  //           child: Icon(Icons.add), // + button
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("${_familyDetails?.animalName ?? 'Family'} Family"),
-        backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
+        backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
       ),
       body: _familyDetails == null
           ? Center(
-        child: CircularProgressIndicator(), // Show a loading indicator
-      )
-          : Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "Animal Species",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Animal Species",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _familyDetails!.fichesIds.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          elevation: 3,
+                          child: ListTile(
+                            title: Text(
+                                "Species ${_familyDetails!.fichesIds[index]}"),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FicheScreen(
+                                    ficheId: _familyDetails!.fichesIds[index],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showAddElementNotification(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddFiche(),
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.add),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromRGBO(255, 240, 213, 1.0),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _familyDetails!.fichesIds.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FicheScreen(ficheId: _familyDetails!.fichesIds[index]),
-                      ),
-                    );
-                  },
-                  child: ListTile(
-                    title: Text("Species ${_familyDetails!.fichesIds[index]}"),
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              _showAddElementNotification(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddFiche(),
-                ),
-              );
-            },
-            child: Icon(Icons.add), // + button
-          ),
-        ],
-      ),
     );
   }
 

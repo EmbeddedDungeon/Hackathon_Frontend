@@ -52,54 +52,112 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     }
   }
 
+  // Old style
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text("${_groupDetails?.groupeName ?? 'Group'} Group"),
+  //       backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
+  //     ),
+  //     body: _groupDetails == null
+  //         ? Center(
+  //       child: CircularProgressIndicator(), // Show a loading indicator
+  //     )
+  //         : Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.all(16.0),
+  //           child: Text(
+  //             "Animal family",
+  //             style: TextStyle(
+  //               fontSize: 20,
+  //               fontWeight: FontWeight.bold,
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           child: ListView.builder(
+  //             itemCount: _groupDetails!.animalNames.length,
+  //             itemBuilder: (context, index) {
+  //               return ListTile(
+  //                 title: Text(_groupDetails!.animalNames[index]),
+  //                 onTap: () {
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                       builder: (context) => FamilyDetailsScreen(
+  //                         campagneId: _groupDetails!.campagneId,
+  //                         groupId: _groupDetails!.groupeId,
+  //                         animalName: _groupDetails!.animalNames[index],
+  //                       ),
+  //                     ),
+  //                   );
+  //                 },
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("${_groupDetails?.groupeName ?? 'Group'} Group"),
-        backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
+        backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
       ),
       body: _groupDetails == null
           ? Center(
-        child: CircularProgressIndicator(), // Show a loading indicator
+        child: CircularProgressIndicator(),
       )
-          : Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
+          : Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
               "Animal family",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _groupDetails!.animalNames.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_groupDetails!.animalNames[index]),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FamilyDetailsScreen(
-                          campagneId: _groupDetails!.campagneId,
-                          groupId: _groupDetails!.groupeId,
-                          animalName: _groupDetails!.animalNames[index],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _groupDetails!.animalNames.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 3,
+                    child: ListTile(
+                      title: Text(_groupDetails!.animalNames[index]),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FamilyDetailsScreen(
+                              campagneId: _groupDetails!.campagneId,
+                              groupId: _groupDetails!.groupeId,
+                              animalName: _groupDetails!.animalNames[index],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+
 }

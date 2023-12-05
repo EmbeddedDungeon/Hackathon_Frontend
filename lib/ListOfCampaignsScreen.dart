@@ -35,7 +35,8 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
     // // ...
 
     // UNCOMMENT
-    final response = await http.get(Uri.parse('http://192.168.137.216:8080/campagnes')); // CHANGE!
+    final response = await http
+        .get(Uri.parse('http://192.168.137.216:8080/campagnes')); // CHANGE!
     if (response.statusCode == 200) {
       setState(() {
         _campaigns = CampaignListFactory.parseCampaignList(response.body);
@@ -46,52 +47,6 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
     // ...
   }
 
-  // // Unstyled
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text("Liste des Campagnes"),
-  //       backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
-  //     ),
-  //     body: ListView.builder(
-  //       itemCount: _campaigns.length,
-  //       itemBuilder: (BuildContext context, int index) {
-  //         return ListTile(
-  //           title: Text(_campaigns[index].campagneName),
-  //           trailing: IconButton(
-  //             icon: Icon(Icons.close),
-  //             onPressed: () {
-  //               // Add logic to delete the company
-  //             },
-  //           ),
-  //           onTap: () {
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(
-  //                 builder: (context) => CampaignDetailsScreen(_campaigns[index].campagneId),
-  //               ),
-  //             );
-  //           },
-  //         );
-  //       },
-  //     ),
-  //     floatingActionButton: FloatingActionButton(
-  //       onPressed: () {
-  //         _showAddElementNotification(context);
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => AddCampaignScreen(),
-  //           ),
-  //         );
-  //       },
-  //       child: Icon(Icons.add),
-  //     ),
-  //   );
-  // }
-
-  // style so so
   // @override
   // Widget build(BuildContext context) {
   //   return Scaffold(
@@ -99,31 +54,34 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
   //       title: Text("Liste des Campagnes"),
   //       backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
   //     ),
-  //     body: ListView.builder(
-  //       itemCount: _campaigns.length,
-  //       itemBuilder: (BuildContext context, int index) {
-  //         return Card(
-  //           elevation: 3,
-  //           child: ListTile(
-  //             dense: true,
-  //             title: Text(_campaigns[index].campagneName),
-  //             trailing: IconButton(
-  //               icon: Icon(Icons.close),
-  //               onPressed: () {
-  //                 // Add logic to delete the company
+  //     body: Padding(
+  //       padding: const EdgeInsets.all(16.0),
+  //       child: ListView.builder(
+  //         itemCount: _campaigns.length,
+  //         itemBuilder: (BuildContext context, int index) {
+  //           return Card(
+  //             elevation: 3,
+  //             child: ListTile(
+  //               title: Text(_campaigns[index].campagneName),
+  //               trailing: IconButton(
+  //                 icon: Icon(Icons.close),
+  //                 onPressed: () {
+  //                   // Add logic to delete the company
+  //                 },
+  //               ),
+  //               onTap: () {
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                     builder: (context) =>
+  //                         CampaignDetailsScreen(_campaigns[index].campagneId),
+  //                   ),
+  //                 );
   //               },
   //             ),
-  //             onTap: () {
-  //               Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                   builder: (context) => CampaignDetailsScreen(_campaigns[index].campagneId),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         );
-  //       },
+  //           );
+  //         },
+  //       ),
   //     ),
   //     floatingActionButton: FloatingActionButton(
   //       onPressed: () {
@@ -145,35 +103,45 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Liste des Campagnes"),
-        backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
+        title: Text("Liste des Campagnes".toUpperCase()),
+        backgroundColor: Color.fromRGBO(228, 232, 244, 1.0),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: _campaigns.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-              elevation: 3,
-              child: ListTile(
-                title: Text(_campaigns[index].campagneName),
-                trailing: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    // Add logic to delete the company
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/images/background-shadow.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView.builder(
+            itemCount: _campaigns.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                elevation: 3,
+                // color: Color.fromRGBO(237, 242, 247, 1),
+                child: ListTile(
+                  title: Text(_campaigns[index].campagneName),
+                  trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      // Add logic to delete the company
+                    },
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CampaignDetailsScreen(_campaigns[index].campagneId),
+                      ),
+                    );
                   },
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CampaignDetailsScreen(_campaigns[index].campagneId),
-                    ),
-                  );
-                },
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -186,11 +154,11 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
             ),
           );
         },
-        child: Icon(Icons.add), backgroundColor: Color.fromRGBO(255, 240, 213, 1.0),
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(255, 240, 213, 1.0),
       ),
     );
   }
-
 
 
   void _showAddElementNotification(BuildContext context) {
