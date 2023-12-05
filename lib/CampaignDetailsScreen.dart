@@ -106,6 +106,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                               campagneId: _campaignDetails!.campagneId,
                               groupId: _campaignDetails!.groupes[index].id,
                             ),
+
                           ),
                         );
                       },
