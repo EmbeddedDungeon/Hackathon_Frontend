@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'FamilyDetailsScreen.dart';
 import 'assets/dto/EachGroupDto.dart';
+import 'package:http/http.dart' as http;
 
 class GroupDetailsScreen extends StatefulWidget {
   final int campagneId;
@@ -22,33 +23,33 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   }
 
   Future<void> _fetchGroupDetails() async {
-    // Hardcoded response for simulation
-    final response = '''
-      {
-        "campagneId": 1,
-        "groupeId": 1,
-        "groupeName": "Amphibiens",
-        "animalNames": ["Frog", "Crapaud", "Gueko", "Salamandre"]
-      }
-    ''';
-
-    setState(() {
-      _groupDetails = EachGroupDto.fromJson(response);
-    });
+    // // Hardcoded response for simulation
+    // final response = '''
+    //   {
+    //     "campagneId": 1,
+    //     "groupeId": 1,
+    //     "groupeName": "Amphibiens",
+    //     "animalNames": ["Frog", "Crapaud", "Gueko", "Salamandre"]
+    //   }
+    // ''';
+    //
+    // setState(() {
+    //   _groupDetails = EachGroupDto.fromJson(response);
+    // });
 
     // Uncomment the following section for actual API call
-    // final url = Uri.parse('http://192.168.137.247:8080/campagne/group');
-    // final response = await http.get(
-    //   url,
-    //   headers: {'campagneId': widget.campagneId.toString(), 'groupId': widget.groupId.toString()},
-    // );
-    // if (response.statusCode == 200) {
-    //   setState(() {
-    //     _groupDetails = EachGroupDto.fromJson(response.body);
-    //   });
-    // } else {
-    //   // Handle error response
-    // }
+    final url = Uri.parse('http://192.168.137.216:8080/campagne/groupe');
+    final response = await http.get(
+      url,
+      headers: {'campagneId': widget.campagneId.toString(), 'groupId': widget.groupId.toString()},
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        _groupDetails = EachGroupDto.fromJson(response.body);
+      });
+    } else {
+      print("GET each group error");
+    }
   }
 
   @override

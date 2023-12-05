@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'GroupDetailsScreen.dart';
 import 'MapScreen.dart';
 import 'assets/dto/EachCampaignDto.dart';
+import 'package:http/http.dart' as http;
 
 class CampaignDetailsScreen extends StatefulWidget {
   final int campagneId;
@@ -24,44 +25,45 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
   }
 
   Future<void> _fetchCampaignDetails() async {
-    // Hardcoded response for simulation
-    final response = '''
-      {
-        "campagneId": 1,
-        "name": "Campagne1",
-        "description": "Une campagne bénévole..",
-        "groupes": [
-          {"id": 1, "nom": "Amphibiens"},
-          {"id": 2, "nom": "Reptiles"}
-        ],
-        "communes": [
-          {"id": 1, "nom": "Cesson-Sevigné"},
-          {"id": 2, "nom": "Roubaix"}
-        ]
-      }
-    ''';
-
-    setState(() {
-      _campaignDetails = EachCampaignDto.fromJson(response);
-    });
+    // // Hardcoded response for simulation
+    // final response = '''
+    //   {
+    //     "campagneId": 1,
+    //     "name": "Campagne1",
+    //     "description": "Une campagne bénévole..",
+    //     "groupes": [
+    //       {"id": 1, "nom": "Amphibiens"},
+    //       {"id": 2, "nom": "Reptiles"}
+    //     ],
+    //     "communes": [
+    //       {"id": 1, "nom": "Cesson-Sevigné"},
+    //       {"id": 2, "nom": "Roubaix"}
+    //     ]
+    //   }
+    // ''';
+    // setState(() {
+    //   _campaignDetails = EachCampaignDto.fromJson(response);
+    // });
 
     // Uncomment the following section for actual API call
-    // final url = Uri.parse('http://192.168.137.247:8080/campagne');
-    // final response = await http.get(url, headers: {'campagneId': widget.campagneId.toString()});
-    // if (response.statusCode == 200) {
-    //   setState(() {
-    //     _campaignDetails = EachCampaignDto.fromJson(response.body);
-    //   });
-    // } else {
-    //   // Handle error response
-    // }
+    final url = Uri.parse('http://192.168.137.216:8080/campagne');
+    final response = await http.get(
+        url, headers: {'campagneId': widget.campagneId.toString()});
+    if (response.statusCode == 200) {
+      setState(() {
+        _campaignDetails = EachCampaignDto.fromJson(response.body);
+      });
+    } else {
+      print("GET each campaign error");
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Campaign Details"),
+        title: Text("${_campaignDetails?.name ?? 'Campagne'} Campagne"),
         backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
       ),
       body: _campaignDetails == null
@@ -74,11 +76,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Name: ${_campaignDetails!.name}",
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(
-              "Description: ${_campaignDetails!.description}",
+              "${_campaignDetails!.description}",
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),
@@ -142,7 +140,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
             Text(
               "Communes",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -209,6 +207,81 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
       ),
     );
   }
-
-
 }
+
+// BACKGROUND
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Campagne Details"),
+//         backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
+//       ),
+//       body: Container(
+//         decoration: BoxDecoration(
+//           image: DecorationImage(
+//             image: AssetImage('lib/assets/images/background-shadow.png'),
+//             fit: BoxFit.cover,
+//           ),
+//         ),
+//         child: _buildCampaignDetails(),
+//       ),
+//       bottomNavigationBar: BottomAppBar(
+//         child: Container(
+//           height: 50.0,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               IconButton(
+//                 icon: Icon(Icons.map),
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => MapScreen(),
+//                     ),
+//                   );
+//                 },
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget _buildCampaignDetails() {
+//     return Padding(
+//       padding: const EdgeInsets.all(16.0),
+//       child: ListView(
+//         children: [
+//           Text(
+//             "Campaign Description",
+//             style: TextStyle(fontSize: 18),
+//           ),
+//           SizedBox(height: 20),
+//           Text(
+//             "Groups",
+//             style: TextStyle(
+//               fontSize: 20,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//           // ... Other widgets for displaying groups
+//           SizedBox(height: 20),
+//           Text(
+//             "Communes",
+//             style: TextStyle(
+//               fontSize: 18,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//           // ... Other widgets for displaying communes
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+

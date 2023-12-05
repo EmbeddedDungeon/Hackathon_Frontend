@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'AddFicheScreen.dart';
 import 'FicheScreen.dart';
 import 'assets/dto/EachFamilyDto.dart';
+import 'package:http/http.dart' as http;
 
 class FamilyDetailsScreen extends StatefulWidget {
   final int campagneId;
@@ -28,23 +29,23 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
   }
 
   Future<void> _fetchFamilyDetails() async {
-    // Hardcoded response for simulation
-    final response = '''
-      {
-        "campagneId": 1,
-        "count": 4,
-        "groupeId": 1,
-        "animalName": "Frog",
-        "fichesIds": [1, 5, 15, 77]
-      }
-    ''';
+    // // Hardcoded response for simulation
+    // final response = '''
+    //   {
+    //     "campagneId": 1,
+    //     "count": 4,
+    //     "groupeId": 1,
+    //     "animalName": "Frog",
+    //     "fichesIds": [1, 5, 15, 77]
+    //   }
+    // ''';
+    //
+    // setState(() {
+    //   _familyDetails = EachFamilyDto.fromJson(response);
+    // });
 
-    setState(() {
-      _familyDetails = EachFamilyDto.fromJson(response);
-    });
-
-    // Uncomment the following section for actual API call
-    // final url = Uri.parse('http://192.168.137.247:8080/campagne/group/animal');
+    // // Uncomment the following section for actual API call
+    // final url = Uri.parse('http://192.168.137.216:8080/campagne/groupe/animal');
     // final response = await http.get(
     //   url,
     //   headers: {
@@ -53,13 +54,23 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
     //     'animalName': widget.animalName,
     //   },
     // );
-    // if (response.statusCode == 200) {
-    //   setState(() {
-    //     _familyDetails = EachFamilyDto.fromJson(response.body);
-    //   });
-    // } else {
-    //   // Handle error response
-    // }
+    final url = Uri.parse('http://192.168.137.216:8080/campagne/groupe/animal/araignée');
+    final response = await http.get(
+      url,
+      headers: {
+        'campagneId': widget.campagneId.toString(),
+        'groupId': widget.groupId.toString(),
+        'animalName': Uri.encodeComponent(widget.animalName),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        _familyDetails = EachFamilyDto.fromJson(response.body);
+      });
+    } else {
+      print("GET each family error");
+    }
   }
 
   @override
