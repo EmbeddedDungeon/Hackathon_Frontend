@@ -44,16 +44,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
     //   _familyDetails = EachFamilyDto.fromJson(response);
     // });
 
-    // // Uncomment the following section for actual API call
-    // final url = Uri.parse('http://192.168.137.216:8080/campagne/groupe/animal');
-    // final response = await http.get(
-    //   url,
-    //   headers: {
-    //     'campagneId': widget.campagneId.toString(),
-    //     'groupId': widget.groupId.toString(),
-    //     'animalName': widget.animalName,
-    //   },
-    // );
+    // Uncomment the following section for actual API call
     final url = Uri.parse(
         'http://192.168.137.216:8080/campagne/groupe/animal/' +
             widget.animalName.toLowerCase());
@@ -75,141 +66,89 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
     }
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text("${_familyDetails?.animalName ?? 'Family'} Family"),
-  //       backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
-  //     ),
-  //     body: _familyDetails == null
-  //         ? Center(
-  //       child: CircularProgressIndicator(), // Show a loading indicator
-  //     )
-  //         : Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.all(16.0),
-  //           child: Text(
-  //             "Animal Species",
-  //             style: TextStyle(
-  //               fontSize: 20,
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: ListView.builder(
-  //             itemCount: _familyDetails!.fichesIds.length,
-  //             itemBuilder: (context, index) {
-  //               return GestureDetector(
-  //                 onTap: () {
-  //                   Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                       builder: (context) => FicheScreen(ficheId: _familyDetails!.fichesIds[index]),
-  //                     ),
-  //                   );
-  //                 },
-  //                 child: ListTile(
-  //                   title: Text("Species ${_familyDetails!.fichesIds[index]}"),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         ),
-  //         SizedBox(height: 20),
-  //         ElevatedButton(
-  //           onPressed: () {
-  //             _showAddElementNotification(context);
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(
-  //                 builder: (context) => AddFiche(),
-  //               ),
-  //             );
-  //           },
-  //           child: Icon(Icons.add), // + button
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${_familyDetails?.animalName ?? 'Family'} Family"),
-        backgroundColor: Color.fromRGBO(123, 185, 255, 1.0),
+        title: Text("Famille : ${_familyDetails?.animalName}"),
+        backgroundColor: Color.fromRGBO(237, 243, 255, 1.0),
       ),
       body: _familyDetails == null
           ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Animal Species",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _familyDetails!.fichesIds.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 3,
-                          child: ListTile(
-                            title: Text(
-                                "Species ${_familyDetails!.fichesIds[index]}"),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FicheScreen(
-                                    ficheId: _familyDetails!.fichesIds[index],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _showAddElementNotification(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddFiche(),
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.add),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(255, 240, 213, 1.0),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      ),
-                    ),
-                  ),
-                ],
+        child: CircularProgressIndicator(),
+      )
+          : Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/images/back.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Espèces animales",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              SizedBox(height: 10),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _familyDetails!.ficheList.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      elevation: 3,
+                      color: Color.fromRGBO(252, 252, 252, 1),
+                      child: ListTile(
+                        title: Text(
+                          "${_familyDetails!.ficheList[index].description}",
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FicheScreen(
+                                ficheId: _familyDetails!.ficheList[index].ficheId,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    _showAddElementNotification(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFiche(),
+                      ),
+                    );
+                  },
+                  child: Text("Ajouter une fiche d'animal", style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(255, 249, 236, 1.0),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
+
 
   void _showAddElementNotification(BuildContext context) {
     // Add logic to show a notification for adding a new element

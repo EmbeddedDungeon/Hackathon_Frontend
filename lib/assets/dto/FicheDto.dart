@@ -6,8 +6,8 @@ class FicheDto {
   final String description;
   final Map<String, int> time;
   final Map<String, int> date;
-  final double? coordX; // Может быть null, используем тип double с дополнительным вопросительным знаком
-  final double? coordY; // Может быть null, используем тип double с дополнительным вопросительным знаком
+  final double? coordX;
+  final double? coordY;
   final List<Commentaire> commentaires;
 
   FicheDto({

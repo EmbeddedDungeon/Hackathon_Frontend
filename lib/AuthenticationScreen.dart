@@ -33,14 +33,18 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
   Future<void> signInWithFirebase(String email, String password) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: "user1@example.com", password: "user1@example.com",
-        //email: email,
-        //password: password,
-      );
+      // // UNCOMMENT
+      // UserCredential userCredential =
+      //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //   email: "user1@example.com", password: "user1@example.com",
+      //   //email: email,
+      //   //password: password,
+      // );
+      //
+      // final user = userCredential.user;
+      // ...
 
-      final user = userCredential.user;
+      final user = "test-user";
 
       if (user != null) {
         //send in DB this user.uid; fjr db check it in firebase fron firebase admin
