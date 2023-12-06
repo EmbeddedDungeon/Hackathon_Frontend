@@ -9,7 +9,7 @@ class ImageUploader {
       for (var image in images) {
         var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
         request.files.add(
-          await http.MultipartFile.fromPath('image', image.path),
+          await http.MultipartFile.fromPath('images', image.path),
         );
 
         var response = await request.send();

@@ -17,12 +17,13 @@ class _MapScreenState extends State<MapScreen> {
   late final MapController _mapController;
   double coordUserLatitude = 0;
   double coordUserLongitude = 0;
-  late CompassService  _compassReader;
+  late CompassService _compassReader;
+  List<CoordDto>? fetchedCoords;
 
   @override
   void initState() {
     _mapController = MapController();
-    _compassReader = CompassService (); // Инициализируем CompassReader
+    _compassReader = CompassService(); // Инициализируем CompassReader
     _compassReader.startReading();
     _takeUserGPSCoord();
     super.initState();
@@ -42,7 +43,8 @@ class _MapScreenState extends State<MapScreen> {
       setState(() {
         coordUserLatitude = currentPosition.latitude;
         coordUserLongitude = currentPosition.longitude;
-        _mapController.move(LatLng(coordUserLatitude, coordUserLongitude), 13.0);
+        _mapController.move(
+            LatLng(coordUserLatitude, coordUserLongitude), 13.0);
       });
       print('Latitude: $coordUserLatitude, Longitude: $coordUserLongitude');
     } catch (e) {
@@ -92,14 +94,11 @@ class _MapScreenState extends State<MapScreen> {
   void fetchData() async {
     int campagneId = 1; // Идентификатор кампании, для которой нужно получить координаты
 
-    List<CoordDto>? fetchedCoords = await FichesCoordsFetcher.fetchFichesCoords(campagneId);
+    fetchedCoords = await FichesCoordsFetcher.fetchFichesCoords(
+        campagneId);
 
     if (fetchedCoords != null) {
-      // Делаем что-то с полученным списком координат
-      fetchedCoords.forEach((coord) {
-        print('Fiche ID: ${coord.ficheId}, CoordX: ${coord.coordX}, CoordY: ${coord.coordY}');
-        // Можно выполнять другие операции с координатами
-      });
+
     } else {
       // Обработка ошибки при получении координат
       print('Failed to fetch coordinates');
@@ -108,15 +107,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<LatLng> _mapPoints = [
-      LatLng(49.123793, -1.644134),
-      LatLng(49.223793, -1.644134),
-      LatLng(49.323793, -1.644134),
-      LatLng(49.423793, -1.644134),
-      LatLng(49.523793, -1.644134),
-      LatLng(49.623793, -1.644134),
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Map Screen'),
@@ -136,7 +126,8 @@ class _MapScreenState extends State<MapScreen> {
             options: MarkerClusterLayerOptions(
               size: const Size(50, 50),
               maxClusterRadius: 50,
-              markers: _getUserMarker(_compassReader.getCompassAngle()) + _getMarkers(_mapPoints),
+              markers: _getUserMarker(_compassReader.getCompassAngle()) +
+                  _getMarkersFromCoords(),
               builder: (_, markers) {
                 return _ClusterMarker(
                   markersLength: markers.length.toString(),
@@ -149,31 +140,35 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  List<Marker> _getMarkers(List<LatLng> mapPoints) {
-    return mapPoints
-        .map(
-          (point) => Marker(
-        point: point,
-        width: 50,
-        height: 50,
-        builder: (context) => GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FicheScreen(ficheId: 1),
+  List<Marker> _getMarkersFromCoords() {
+    if (fetchedCoords != null) {
+      return fetchedCoords!.map((coord) {
+        return Marker(
+          point: LatLng(coord.coordX, coord.coordY),
+          width: 50,
+          height: 50,
+          builder: (context) =>
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FicheScreen(ficheId: coord.ficheId),
+                    ),
+                  );
+                },
+                child: Image.asset('lib/assets/images/point.png'),
               ),
-            );
-          },
-          child: Image.asset('lib/assets/images/point.png'),
-        ),
-      ),
-    )
-        .toList();
+        );
+      }).toList();
+    } else {
+      // Если fetchedCoords равен null, возвращаем пустой список маркеров
+      return [];
+    }
   }
 }
 
-class _ClusterMarker extends StatelessWidget {
+  class _ClusterMarker extends StatelessWidget {
   const _ClusterMarker({required this.markersLength});
 
   final String markersLength;
