@@ -123,25 +123,25 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showAddElementNotification(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddFiche(),
-                      ),
-                    );
-                  },
-                  child: Text("Ajouter une fiche d'animal", style: TextStyle(color: Colors.black)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(255, 249, 236, 1.0),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  ),
-                ),
-              ),
+              // SizedBox(height: 20),
+              // Center(
+              //   child: ElevatedButton(
+              //     onPressed: () {
+              //       _showAddElementNotification(context);
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => AddFiche(),
+              //         ),
+              //       );
+              //     },
+              //     child: Text("Ajouter une fiche d'animal", style: TextStyle(color: Colors.black)),
+              //     style: ElevatedButton.styleFrom(
+              //       primary: Color.fromRGBO(255, 249, 236, 1.0),
+              //       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
