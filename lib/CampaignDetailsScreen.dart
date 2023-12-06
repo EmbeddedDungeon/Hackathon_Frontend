@@ -6,6 +6,8 @@ import 'MapScreen.dart';
 import 'assets/dto/EachCampaignDto.dart';
 import 'package:http/http.dart' as http;
 
+import 'assets/dto/GlobalVariables.dart';
+
 class CampaignDetailsScreen extends StatefulWidget {
   final int campagneId;
 
@@ -56,6 +58,9 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
     } else {
       print("GET each campaign error");
     }
+
+    CampagneManager campagneManager = CampagneManager();
+    campagneManager.setCampagneId(_campaignDetails!.campagneId);
   }
 
   @override
