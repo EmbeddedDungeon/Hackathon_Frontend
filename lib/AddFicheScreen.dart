@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'GroupDetailsScreen.dart';
 import 'LocationPickerScreen.dart';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http; // Добавляем импорт для работы с HTTP
 import 'ImageUploader.dart';
+import 'assets/dto/FichePostDto.dart';
+import 'assets/dto/GlobalVariables.dart';
 // class ImageUploader {
 //   Future<bool> uploadImages(List<File> images) async {
 //     const String serverAddress = '192.168.137.216';
@@ -57,6 +62,31 @@ class _AddFicheState extends State<AddFiche> {
   String animalName = '';
   LatLng? selectedLocation;
   List<XFile> images = [];
+  FichePostDto? _fichePostData;
+
+  @override
+  void initState() {
+    super.initState();
+    _fichePostData = FichePostDto(
+      userId: 1,
+      campagneId: 1,
+      groupId: 1,
+      description: "Default description",
+      familyName: "Default family name",
+      coordX: 5.25454,
+      coordY: 6.21485,
+      date: {
+        'day': 1,
+        'month': 1,
+        'year': 2023,
+      },
+      time: {
+        'hour': 16,
+        'minute': 55,
+        'second': 0,
+      },
+    );
+  }
 
   Future<void> _pickImages() async {
     final picker = ImagePicker();
@@ -88,7 +118,19 @@ class _AddFicheState extends State<AddFiche> {
         selectedDate = picked;
       });
     }
+
+    // if (picked != null && picked != selectedDate) {
+    //   setState(() {
+    //     selectedDate = picked;
+    //     _fichePostData?.date = {
+    //       'day': picked.day,
+    //       'month': picked.month,
+    //       'year': picked.year,
+    //     };
+    //   });
+    // }
   }
+
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -127,6 +169,73 @@ class _AddFicheState extends State<AddFiche> {
     return files;
   }
 
+  Future<void> _saveFiche() async {
+    const String apiUrl = 'http://192.168.137.216:8080/fiche';
+
+    // late FichePostDto _fichePostData = FichePostDto(
+    //   userId: 1,
+    //   campagneId: 1,
+    //   groupId: 1,
+    //   description: "Test description",
+    //   familyName: "Test family name",
+    //   coordX: 5.25454,
+    //   coordY: 6.21485,
+    //   date: {
+    //     'day': 1,
+    //     'month': 1,
+    //     'year': 2023,
+    //   },
+    //   time: {
+    //     'hour': 16,
+    //     'minute': 55,
+    //     'second': 0,
+    //   },
+    // );
+
+    GroupManager groupManager = GroupManager();
+    _fichePostData?.groupId = groupManager.getGroupId()!;
+    CampagneManager campagneManager = CampagneManager();
+    _fichePostData?.campagneId = campagneManager.getCampagneId()!;
+
+    String ficheJson = jsonEncode(_fichePostData);
+
+    try {
+      http.Response response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: ficheJson,
+      );
+
+      print(ficheJson);
+
+      if (response.statusCode == 200) {
+        print('Fiche успешно сохранен!');
+        // Дополнительные действия после успешного сохранения, если нужно
+      } else {
+        print('Ошибка сохранения Fiche: ${response.statusCode}');
+        // Обработка ошибки сохранения
+      }
+    } catch (e) {
+      print('Ошибка при отправке запроса: $e');
+      // Обработка ошибки при отправке запроса
+    }
+
+    // Закрытие экрана AddFiche
+    // Navigator.pop(context);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GroupDetailsScreen(
+          campagneId: _fichePostData!.campagneId,
+          groupId: groupManager.getGroupId()!,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,36 +250,44 @@ class _AddFicheState extends State<AddFiche> {
             children: <Widget>[
               TextField(
                 onChanged: (value) {
-                  setState(() {
-                    animalName = value;
-                  });
+                  _fichePostData?.familyName = value;
                 },
                 decoration: InputDecoration(
-                  labelText: 'Enter animal name',
+                  labelText: 'Enter family name',
                   border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => _selectDate(context),
-                child: Text('Select Date'),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Selected Date: ${selectedDate.toString()}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => _selectTime(context),
-                child: Text('Select Time'),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Selected Time: ${selectedTime.format(context)}',
-                style: TextStyle(fontSize: 16),
+              TextField(
+                onChanged: (value) {
+                  _fichePostData?.description = value;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Enter description',
+                  border: OutlineInputBorder(),
+                ),
               ),
               SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: () => _selectDate(context),
+              //   child: Text('Select Date'),
+              // ),
+              // SizedBox(height: 10),
+              // Text(
+              //   'Selected Date: ${selectedDate.toString()}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: () => _selectTime(context),
+              //   child: Text('Select Time'),
+              // ),
+              // SizedBox(height: 10),
+              // Text(
+              //   'Selected Time: ${selectedTime.format(context)}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _selectLocation,
                 child: Text('Add Location'),
@@ -222,27 +339,28 @@ class _AddFicheState extends State<AddFiche> {
 
 
               ElevatedButton(
-                onPressed: () async {
-                  ImageUploader uploader = ImageUploader();
-
-                  if (images.isNotEmpty) {
-                    // Преобразование списка XFile в список File
-                    List<File> files = convertXFilesToFiles(images);
-
-                    // Загрузка изображений на сервер с помощью ImageUploader
-                    bool uploaded = await uploader.uploadImages(files);
-                    if (uploaded) {
-                      print('Изображения успешно загружены на сервер');
-                      // Дополнительные действия после успешной загрузки, если нужно
-                    } else {
-                      print('Ошибка при загрузке изображений на сервер');
-                      // Обработка ошибки загрузки, если нужно
-                    }
-                  }
-
-                  // Закрытие экрана AddFiche
-                  Navigator.pop(context);
-                },
+                onPressed: _saveFiche,
+                // () async {
+                //   ImageUploader uploader = ImageUploader();
+                //
+                //   if (images.isNotEmpty) {
+                //     // Преобразование списка XFile в список File
+                //     List<File> files = convertXFilesToFiles(images);
+                //
+                //     // Загрузка изображений на сервер с помощью ImageUploader
+                //     bool uploaded = await uploader.uploadImages(files);
+                //     if (uploaded) {
+                //       print('Изображения успешно загружены на сервер');
+                //       // Дополнительные действия после успешной загрузки, если нужно
+                //     } else {
+                //       print('Ошибка при загрузке изображений на сервер');
+                //       // Обработка ошибки загрузки, если нужно
+                //     }
+                //   }
+                //
+                //   // Закрытие экрана AddFiche
+                //   Navigator.pop(context);
+                // },
                 child: Text('Save Fiche'),
               ),
             ],
@@ -251,4 +369,6 @@ class _AddFicheState extends State<AddFiche> {
       ),
     );
   }
+
+
 }

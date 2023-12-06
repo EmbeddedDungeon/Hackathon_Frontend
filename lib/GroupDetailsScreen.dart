@@ -4,6 +4,8 @@ import 'assets/dto/EachGroupDto.dart';
 import 'AddFicheScreen.dart';
 import 'package:http/http.dart' as http;
 
+import 'assets/dto/GlobalVariables.dart';
+
 class GroupDetailsScreen extends StatefulWidget {
   final int campagneId;
   final int groupId;
@@ -20,7 +22,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchGroupDetails(); // Вызываем метод загрузки деталей группы при инициализации виджета
+    _fetchGroupDetails();
   }
 
   Future<void> _fetchGroupDetails() async {
@@ -51,6 +53,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     } else {
       print("GET each group error");
     }
+
+    GroupManager groupManager = GroupManager();
+    groupManager.setGroupId(_groupDetails!.groupeId);
   }
 
   @override
