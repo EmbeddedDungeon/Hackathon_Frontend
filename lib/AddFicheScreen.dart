@@ -381,6 +381,7 @@ class _AddFicheState extends State<AddFiche> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Fiche'),
+        backgroundColor: Color.fromRGBO(237, 243, 255, 1.0),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -408,7 +409,10 @@ class _AddFicheState extends State<AddFiche> {
                     ),
                     decoration: InputDecoration(
                       labelText: 'Famille d\'animaux',
-                      border: OutlineInputBorder(),
+                      labelStyle: TextStyle(
+                        color: Colors.black54,
+                      ),
+                      border: InputBorder.none, // Remove the border
                     ),
                   ),
                 ),
@@ -428,7 +432,10 @@ class _AddFicheState extends State<AddFiche> {
                     ),
                     decoration: InputDecoration(
                       labelText: 'Description',
-                      border: OutlineInputBorder(),
+                      labelStyle: TextStyle(
+                        color: Colors.black54,
+                      ),
+                      border: InputBorder.none, // Remove the border
                     ),
                   ),
                 ),
