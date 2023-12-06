@@ -2,25 +2,35 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class ImageUploader {
-  Future<bool> uploadImages(List<File> images) async {
-    const String apiUrl = 'http://192.168.137.121:8080/upload'; // Укажите ваш адрес и порт
+  Future<List<bool>> uploadImages(List<File> images) async {
+    const String apiUrl = 'http://192.168.137.1:8080/images'; // Укажите ваш адрес и порт
+    List<bool> uploadResults = [];
 
     try {
       for (var image in images) {
-        var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-        request.files.add(
-          await http.MultipartFile.fromPath('image', image.path),
+        List<int> imageBytes = await image.readAsBytes();
+        var response = await http.post(
+          Uri.parse(apiUrl),
+          body: imageBytes,
+          headers: <String, String>{
+            'Content-Type': 'image/png', // Укажите соответствующий Content-Type
+          },
         );
 
-        var response = await request.send();
-        if (response.statusCode != 200) {
-          return false; // Если одна из загрузок не удалась, возвращаем false
+        if (response.statusCode == 200) {
+          print('Image uploaded successfully');
+          uploadResults.add(true); // Если изображение было успешно загружено
+        } else {
+          print('Failed to upload image: ${response.statusCode}');
+          uploadResults.add(false); // Если загрузка изображения не удалась
         }
       }
-      return true; // Если все изображения были успешно загружены
     } catch (e) {
       print('Error uploading images: $e');
-      return false; // Если произошла ошибка при загрузке
+      // Добавьте в список результатов false для каждого изображения, если возникла ошибка при загрузке
+      uploadResults.addAll(List.generate(images.length, (_) => false));
     }
+
+    return uploadResults;
   }
 }
