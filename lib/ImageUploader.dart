@@ -3,7 +3,7 @@ import 'dart:io';
 
 class ImageUploader {
   Future<bool> uploadImages(List<File> images) async {
-    const String apiUrl = 'http://192.168.137.1:8080/upload'; // Укажите ваш адрес и порт
+    const String apiUrl = 'http://192.168.137.121:8080/upload'; // Укажите ваш адрес и порт
 
     try {
       for (var image in images) {

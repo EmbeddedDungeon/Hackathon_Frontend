@@ -5,36 +5,36 @@ import 'dart:io';
 import 'LocationPickerScreen.dart';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http; // Добавляем импорт для работы с HTTP
-
-class ImageUploader {
-  Future<bool> uploadImages(List<File> images) async {
-    const String serverAddress = '192.168.137.121';
-    const int serverPort = 8080;
-
-    try {
-      Socket socket = await Socket.connect(serverAddress, serverPort);
-
-      for (var imageFile in images) {
-        XFile xFile = XFile(imageFile.path);
-        File image = File(xFile.path);
-        Uint8List bytes = await image.readAsBytes();
-
-        // Отправка размера изображения
-        socket.add(bytes.lengthInBytes.toBytes());
-        // Отправка самих данных изображения
-        socket.add(bytes);
-      }
-
-      // Закрытие сокета после отправки всех изображений
-      socket.close();
-
-      return true; // Если все изображения были успешно отправлены
-    } catch (e) {
-      print('Error uploading images: $e');
-      return false; // Если произошла ошибка при отправке
-    }
-  }
-}
+import 'ImageUploader.dart';
+// class ImageUploader {
+//   Future<bool> uploadImages(List<File> images) async {
+//     const String serverAddress = '192.168.137.216';
+//     const int serverPort = 8080;
+//
+//     try {
+//       Socket socket = await Socket.connect(serverAddress, serverPort);
+//
+//       for (var imageFile in images) {
+//         XFile xFile = XFile(imageFile.path);
+//         File image = File(xFile.path);
+//         Uint8List bytes = await image.readAsBytes();
+//
+//         // Отправка размера изображения
+//         socket.add(bytes.lengthInBytes.toBytes());
+//         // Отправка самих данных изображения
+//         socket.add(bytes);
+//       }
+//
+//       // Закрытие сокета после отправки всех изображений
+//       socket.close();
+//
+//       return true; // Если все изображения были успешно отправлены
+//     } catch (e) {
+//       print('Error uploading images: $e');
+//       return false; // Если произошла ошибка при отправке
+//     }
+//   }
+// }
 
 // Преобразование числа в массив байтов (Uint8List)
 extension IntToBytes on int {
