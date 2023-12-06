@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class FicheDto {
   final int ficheId;
+  final int campagneId;
   final String familyName;
   final String description;
   final Map<String, int> time;
@@ -12,6 +13,7 @@ class FicheDto {
 
   FicheDto({
     required this.ficheId,
+    required this.campagneId,
     required this.familyName,
     required this.description,
     required this.time,
@@ -26,6 +28,7 @@ class FicheDto {
 
     return FicheDto(
       ficheId: parsed['ficheId'],
+      campagneId: parsed['campagneId'],
       familyName: parsed['familyName'],
       description: parsed['description'],
       time: Map<String, int>.from(parsed['time']),

@@ -60,6 +60,7 @@ class _FicheScreenState extends State<FicheScreen> {
     if (response.statusCode == 200) {
       setState(() {
         _ficheDetails = FicheDto.fromJson(response.body);
+        print("campagneId = = = " + _ficheDetails!.campagneId.toString());
       });
     } else {
       // Handle error response
