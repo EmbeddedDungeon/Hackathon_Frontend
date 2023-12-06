@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'assets/dto/FicheDto.dart';
 import 'package:http/http.dart' as http;
+import 'DownloadImage.dart';
+import 'dart:typed_data';
+
 
 class FicheScreen extends StatefulWidget {
   final int ficheId;
-
   FicheScreen({required this.ficheId});
 
   @override
@@ -13,11 +15,13 @@ class FicheScreen extends StatefulWidget {
 
 class _FicheScreenState extends State<FicheScreen> {
   FicheDto? _ficheDetails;
+  List<int>? _imageData;
 
   @override
   void initState() {
     super.initState();
     _fetchFicheDetails(); // Вызываем метод загрузки деталей фише при инициализации виджета
+    loadImage();
   }
 
   Future<void> _fetchFicheDetails() async {
@@ -67,6 +71,17 @@ class _FicheScreenState extends State<FicheScreen> {
     }
   }
 
+  Future<void> loadImage() async {
+    DownloadImage imageFetcher = DownloadImage();
+    try {
+      List<int> imageData = await imageFetcher.fetchImageByNumber(123); // Номер изображения
+      setState(() {
+        _imageData = imageData;
+      });
+    } catch (e) {
+      print('Failed to load image: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,8 +186,28 @@ class _FicheScreenState extends State<FicheScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 20),
-                      // Добавьте пустое пространство после комментариев, если нужно
+                      if (_imageData != null) // Проверяем, есть ли данные об изображении
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10),
+                            Text(
+                              // Image Title
+                              "just look at this animal. It's very cute.",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 200, // Установите желаемую высоту изображения
+                              child: Image.memory(
+                                Uint8List.fromList(_imageData!), // Преобразование List<int> в Uint8List
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),
@@ -183,6 +218,4 @@ class _FicheScreenState extends State<FicheScreen> {
       ),
     );
   }
-
-
 }
