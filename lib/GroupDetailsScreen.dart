@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'FamilyDetailsScreen.dart';
 import 'assets/dto/EachGroupDto.dart';
+import 'AddFicheScreen.dart';
 import 'package:http/http.dart' as http;
 
 class GroupDetailsScreen extends StatefulWidget {
@@ -107,6 +108,24 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       ),
                     );
                   },
+                ),
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFiche(),
+                      ),
+                    );
+                  },
+                  child: Text("Ajouter une fiche d'animal", style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(255, 249, 236, 1.0),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  ),
                 ),
               ),
             ],
