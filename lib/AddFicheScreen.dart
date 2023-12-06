@@ -66,9 +66,6 @@ class _AddFicheState extends State<AddFiche> {
 
   @override
   void initState() {
-    DateTime now = DateTime.now();
-    TimeOfDay currentTime = TimeOfDay.now();
-
     super.initState();
     _fichePostData = FichePostDto(
       userId: 1,
@@ -79,13 +76,13 @@ class _AddFicheState extends State<AddFiche> {
       coordX: 5.25454,
       coordY: 6.21485,
       date: {
-        'day': now.day,
-        'month': now.month,
-        'year': now.year,
+        'day': 1,
+        'month': 1,
+        'year': 2023,
       },
       time: {
-        'hour': currentTime.hour,
-        'minute': currentTime.minute,
+        'hour': 16,
+        'minute': 55,
         'second': 0,
       },
     );
@@ -158,8 +155,6 @@ class _AddFicheState extends State<AddFiche> {
     if (location != null && location is LatLng) {
       setState(() {
         selectedLocation = location;
-        _fichePostData?.coordX = selectedLocation?.latitude;
-        _fichePostData?.coordY = selectedLocation?.longitude;
       });
     }
   }
@@ -230,6 +225,7 @@ class _AddFicheState extends State<AddFiche> {
     // Закрытие экрана AddFiche
     // Navigator.pop(context);
 
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -241,220 +237,73 @@ class _AddFicheState extends State<AddFiche> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Add Fiche'),
-  //     ),
-  //     body: SingleChildScrollView(
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(16.0),
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.stretch,
-  //           children: <Widget>[
-  //             TextField(
-  //               onChanged: (value) {
-  //                 _fichePostData?.familyName = value;
-  //               },
-  //               decoration: InputDecoration(
-  //                 labelText: 'Enter family name',
-  //                 border: OutlineInputBorder(),
-  //               ),
-  //             ),
-  //             SizedBox(height: 20),
-  //             TextField(
-  //               onChanged: (value) {
-  //                 _fichePostData?.description = value;
-  //               },
-  //               decoration: InputDecoration(
-  //                 labelText: 'Enter description',
-  //                 border: OutlineInputBorder(),
-  //               ),
-  //             ),
-  //             SizedBox(height: 20),
-  //             // ElevatedButton(
-  //             //   onPressed: () => _selectDate(context),
-  //             //   child: Text('Select Date'),
-  //             // ),
-  //             // SizedBox(height: 10),
-  //             // Text(
-  //             //   'Selected Date: ${selectedDate.toString()}',
-  //             //   style: TextStyle(fontSize: 16),
-  //             // ),
-  //             // SizedBox(height: 20),
-  //             // ElevatedButton(
-  //             //   onPressed: () => _selectTime(context),
-  //             //   child: Text('Select Time'),
-  //             // ),
-  //             // SizedBox(height: 10),
-  //             // Text(
-  //             //   'Selected Time: ${selectedTime.format(context)}',
-  //             //   style: TextStyle(fontSize: 16),
-  //             // ),
-  //             // SizedBox(height: 20),
-  //             ElevatedButton(
-  //               onPressed: _selectLocation,
-  //               child: Text('Add Location'),
-  //             ),
-  //             SizedBox(height: 10),
-  //             selectedLocation != null
-  //                 ? Text(
-  //               'Selected Location: ${selectedLocation!.latitude}, ${selectedLocation!.longitude}',
-  //               style: TextStyle(fontSize: 16),
-  //             )
-  //                 : Container(),
-  //             SizedBox(height: 20),
-  //             ElevatedButton(
-  //               onPressed: _pickImages,
-  //               child: Text('Add Photos'),
-  //             ),
-  //             SizedBox(height: 10),
-  //             images.isNotEmpty
-  //                 ? Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: images.asMap().entries.map((entry) {
-  //                 final index = entry.key;
-  //                 final image = entry.value;
-  //                 return Padding(
-  //                   padding: const EdgeInsets.only(bottom: 8.0),
-  //                   child: Stack(
-  //                     children: [
-  //                       Image.file(
-  //                         File(image.path),
-  //                         height: 100,
-  //                         width: 100,
-  //                         fit: BoxFit.cover,
-  //                       ),
-  //                       Positioned(
-  //                         top: 0,
-  //                         right: 0,
-  //                         child: IconButton(
-  //                           icon: Icon(Icons.delete),
-  //                           onPressed: () => _removeImage(index),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 );
-  //               }).toList(),
-  //             )
-  //                 : Container(),
-  //             SizedBox(height: 20),
-  //
-  //
-  //             ElevatedButton(
-  //               onPressed:
-  //               _saveFiche,
-  //               // () async {
-  //               //   ImageUploader uploader = ImageUploader();
-  //               //
-  //               //   if (images.isNotEmpty) {
-  //               //     // Преобразование списка XFile в список File
-  //               //     List<File> files = convertXFilesToFiles(images);
-  //               //
-  //               //     // Загрузка изображений на сервер с помощью ImageUploader
-  //               //     bool uploaded = await uploader.uploadImages(files);
-  //               //     if (uploaded) {
-  //               //       print('Изображения успешно загружены на сервер');
-  //               //       // Дополнительные действия после успешной загрузки, если нужно
-  //               //     } else {
-  //               //       print('Ошибка при загрузке изображений на сервер');
-  //               //       // Обработка ошибки загрузки, если нужно
-  //               //     }
-  //               //   }
-  //               //
-  //               //   // Закрытие экрана AddFiche
-  //               //   Navigator.pop(context);
-  //               // },
-  //               child: Text('Save Fiche'),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Fiche'),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('lib/assets/images/back.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Card(
-                elevation: 3,
-                color: Color.fromRGBO(252, 252, 252, 1),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) {
-                      _fichePostData?.familyName = value;
-                    },
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Famille d\'animaux',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
+              TextField(
+                onChanged: (value) {
+                  _fichePostData?.familyName = value;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Enter family name',
+                  border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 20),
-              Card(
-                elevation: 3,
-                color: Color.fromRGBO(252, 252, 252, 1),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) {
-                      _fichePostData?.description = value;
-                    },
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Description',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
+              TextField(
+                onChanged: (value) {
+                  _fichePostData?.description = value;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Enter description',
+                  border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: () => _selectDate(context),
+              //   child: Text('Select Date'),
+              // ),
+              // SizedBox(height: 10),
+              // Text(
+              //   'Selected Date: ${selectedDate.toString()}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: () => _selectTime(context),
+              //   child: Text('Select Time'),
+              // ),
+              // SizedBox(height: 10),
+              // Text(
+              //   'Selected Time: ${selectedTime.format(context)}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _selectLocation,
-                child: Text('Ajouter une localisation', style: TextStyle(color: Colors.black)),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(255, 249, 236, 1.0),
-                ),
+                child: Text('Add Location'),
               ),
               SizedBox(height: 10),
               selectedLocation != null
                   ? Text(
-                'Localisation sélectionnée : ${selectedLocation!.latitude}, ${selectedLocation!.longitude}',
+                'Selected Location: ${selectedLocation!.latitude}, ${selectedLocation!.longitude}',
                 style: TextStyle(fontSize: 16),
               )
                   : Container(),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _pickImages,
-                child: Text('Ajouter une photo', style: TextStyle(color: Colors.black)),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(255, 249, 236, 1.0),
-                ),
+                child: Text('Add Photos'),
               ),
               SizedBox(height: 10),
               images.isNotEmpty
@@ -488,18 +337,32 @@ class _AddFicheState extends State<AddFiche> {
               )
                   : Container(),
               SizedBox(height: 20),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    onPressed: _saveFiche,
-                    child: Text('Enregistrer', style: TextStyle(color: Colors.black)),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(255, 249, 236, 1.0),
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                    ),
-                  ),
-                ),
+
+
+              ElevatedButton(
+                onPressed: _saveFiche,
+                // () async {
+                //   ImageUploader uploader = ImageUploader();
+                //
+                //   if (images.isNotEmpty) {
+                //     // Преобразование списка XFile в список File
+                //     List<File> files = convertXFilesToFiles(images);
+                //
+                //     // Загрузка изображений на сервер с помощью ImageUploader
+                //     bool uploaded = await uploader.uploadImages(files);
+                //     if (uploaded) {
+                //       print('Изображения успешно загружены на сервер');
+                //       // Дополнительные действия после успешной загрузки, если нужно
+                //     } else {
+                //       print('Ошибка при загрузке изображений на сервер');
+                //       // Обработка ошибки загрузки, если нужно
+                //     }
+                //   }
+                //
+                //   // Закрытие экрана AddFiche
+                //   Navigator.pop(context);
+                // },
+                child: Text('Save Fiche'),
               ),
             ],
           ),
