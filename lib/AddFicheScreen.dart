@@ -222,6 +222,18 @@ class _AddFicheState extends State<AddFiche> {
       // Обработка ошибки при отправке запроса
     }
 
+    ImageUploader uploader = ImageUploader();
+
+      if (images.isNotEmpty) {
+        // Преобразование списка XFile в список File
+        List<File> files = convertXFilesToFiles(images);
+
+        // Загрузка изображений на сервер с помощью ImageUploader
+        uploader.uploadImages(files);
+      }
+
+
+
     // Закрытие экрана AddFiche
     // Navigator.pop(context);
 
@@ -242,6 +254,7 @@ class _AddFicheState extends State<AddFiche> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Fiche'),
+        backgroundColor: Color.fromRGBO(237, 243, 255, 1.0),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -249,23 +262,49 @@ class _AddFicheState extends State<AddFiche> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextField(
-                onChanged: (value) {
-                  _fichePostData?.familyName = value;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Enter family name',
-                  border: OutlineInputBorder(),
+              Card(
+                elevation: 3,
+                color: Color.fromRGBO(252, 252, 252, 1),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      _fichePostData?.familyName = value;
+                    },
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Famille d\'animaux',
+                      labelStyle: TextStyle(
+                        color: Colors.black54,
+                      ),
+                      border: InputBorder.none, // Remove the border
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
-                onChanged: (value) {
-                  _fichePostData?.description = value;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Enter description',
-                  border: OutlineInputBorder(),
+              Card(
+                elevation: 3,
+                color: Color.fromRGBO(252, 252, 252, 1),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      _fichePostData?.description = value;
+                    },
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      labelStyle: TextStyle(
+                        color: Colors.black54,
+                      ),
+                      border: InputBorder.none, // Remove the border
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
