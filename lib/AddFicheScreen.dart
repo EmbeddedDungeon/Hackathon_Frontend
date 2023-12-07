@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http; // Добавляем импорт дл
 import 'ImageUploader.dart';
 import 'assets/dto/FichePostDto.dart';
 import 'assets/dto/GlobalVariables.dart';
+
 // class ImageUploader {
 //   Future<bool> uploadImages(List<File> images) async {
 //     const String serverAddress = '192.168.137.216';
@@ -181,18 +182,18 @@ class _AddFicheState extends State<AddFiche> {
     //   userId: 1,
     //   campagneId: 1,
     //   groupId: 1,
-    //   description: "Test description",
-    //   familyName: "Test family name",
+    //   description: "Default description",
+    //   familyName: "Default family name",
     //   coordX: 5.25454,
     //   coordY: 6.21485,
     //   date: {
-    //     'day': 1,
-    //     'month': 1,
-    //     'year': 2023,
+    //     'day': now.day,
+    //     'month': now.month,
+    //     'year': now.year,
     //   },
     //   time: {
-    //     'hour': 16,
-    //     'minute': 55,
+    //     'hour': currentTime.hour,
+    //     'minute': currentTime.minute,
     //     'second': 0,
     //   },
     // );
@@ -213,7 +214,7 @@ class _AddFicheState extends State<AddFiche> {
         body: ficheJson,
       );
 
-      print(ficheJson);
+      print("POST /fiche " + ficheJson);
 
       if (response.statusCode == 200) {
         print('Fiche успешно сохранен!');
@@ -250,146 +251,12 @@ class _AddFicheState extends State<AddFiche> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Add Fiche'),
-  //     ),
-  //     body: SingleChildScrollView(
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(16.0),
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.stretch,
-  //           children: <Widget>[
-  //             TextField(
-  //               onChanged: (value) {
-  //                 _fichePostData?.familyName = value;
-  //               },
-  //               decoration: InputDecoration(
-  //                 labelText: 'Enter family name',
-  //                 border: OutlineInputBorder(),
-  //               ),
-  //             ),
-  //             SizedBox(height: 20),
-  //             TextField(
-  //               onChanged: (value) {
-  //                 _fichePostData?.description = value;
-  //               },
-  //               decoration: InputDecoration(
-  //                 labelText: 'Enter description',
-  //                 border: OutlineInputBorder(),
-  //               ),
-  //             ),
-  //             SizedBox(height: 20),
-  //             // ElevatedButton(
-  //             //   onPressed: () => _selectDate(context),
-  //             //   child: Text('Select Date'),
-  //             // ),
-  //             // SizedBox(height: 10),
-  //             // Text(
-  //             //   'Selected Date: ${selectedDate.toString()}',
-  //             //   style: TextStyle(fontSize: 16),
-  //             // ),
-  //             // SizedBox(height: 20),
-  //             // ElevatedButton(
-  //             //   onPressed: () => _selectTime(context),
-  //             //   child: Text('Select Time'),
-  //             // ),
-  //             // SizedBox(height: 10),
-  //             // Text(
-  //             //   'Selected Time: ${selectedTime.format(context)}',
-  //             //   style: TextStyle(fontSize: 16),
-  //             // ),
-  //             // SizedBox(height: 20),
-  //             ElevatedButton(
-  //               onPressed: _selectLocation,
-  //               child: Text('Add Location'),
-  //             ),
-  //             SizedBox(height: 10),
-  //             selectedLocation != null
-  //                 ? Text(
-  //               'Selected Location: ${selectedLocation!.latitude}, ${selectedLocation!.longitude}',
-  //               style: TextStyle(fontSize: 16),
-  //             )
-  //                 : Container(),
-  //             SizedBox(height: 20),
-  //             ElevatedButton(
-  //               onPressed: _pickImages,
-  //               child: Text('Add Photos'),
-  //             ),
-  //             SizedBox(height: 10),
-  //             images.isNotEmpty
-  //                 ? Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: images.asMap().entries.map((entry) {
-  //                 final index = entry.key;
-  //                 final image = entry.value;
-  //                 return Padding(
-  //                   padding: const EdgeInsets.only(bottom: 8.0),
-  //                   child: Stack(
-  //                     children: [
-  //                       Image.file(
-  //                         File(image.path),
-  //                         height: 100,
-  //                         width: 100,
-  //                         fit: BoxFit.cover,
-  //                       ),
-  //                       Positioned(
-  //                         top: 0,
-  //                         right: 0,
-  //                         child: IconButton(
-  //                           icon: Icon(Icons.delete),
-  //                           onPressed: () => _removeImage(index),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 );
-  //               }).toList(),
-  //             )
-  //                 : Container(),
-  //             SizedBox(height: 20),
-  //
-  //
-  //             ElevatedButton(
-  //               onPressed:
-  //               _saveFiche,
-  //               // () async {
-  //               //   ImageUploader uploader = ImageUploader();
-  //               //
-  //               //   if (images.isNotEmpty) {
-  //               //     // Преобразование списка XFile в список File
-  //               //     List<File> files = convertXFilesToFiles(images);
-  //               //
-  //               //     // Загрузка изображений на сервер с помощью ImageUploader
-  //               //     bool uploaded = await uploader.uploadImages(files);
-  //               //     if (uploaded) {
-  //               //       print('Изображения успешно загружены на сервер');
-  //               //       // Дополнительные действия после успешной загрузки, если нужно
-  //               //     } else {
-  //               //       print('Ошибка при загрузке изображений на сервер');
-  //               //       // Обработка ошибки загрузки, если нужно
-  //               //     }
-  //               //   }
-  //               //
-  //               //   // Закрытие экрана AddFiche
-  //               //   Navigator.pop(context);
-  //               // },
-  //               child: Text('Save Fiche'),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Fiche'),
+        title: Text('Ajouter une Fiche'),
         backgroundColor: Color.fromRGBO(237, 243, 255, 1.0),
       ),
       body: Container(
