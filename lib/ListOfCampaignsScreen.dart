@@ -98,7 +98,7 @@ class _ListOfCompaignsScreenState extends State<ListOfCompaignsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddCampaignScreen(),
+              builder: (context) => AddCampaign(),
             ),
           );
         },
