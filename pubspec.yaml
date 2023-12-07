@@ -37,6 +37,8 @@ dependencies:
   sensors: any
   flutter_compass: any
   tcp_socket_connection: any
+  intl: ^0.17.0
+
 
   flutter_map_marker_cluster: any
 # The following adds the Cupertino Icons font to your application.

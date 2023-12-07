@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 import 'package:atlas_of_biodiversity/ListOfCampaignsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
@@ -29,12 +29,12 @@ class AddCampaign extends StatefulWidget {
 }
 
 class _AddCampaignState extends State<AddCampaign> {
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  late DateTime? selectedDate = null;
+  late TimeOfDay? selectedTime = null;
   String animalName = '';
   LatLng? selectedLocation;
   List<XFile> images = [];
-  CampaignPostDto?  _campaignPostData;
+  CampaignPostDto? _campaignPostData;
 
   @override
   void initState() {
@@ -43,73 +43,71 @@ class _AddCampaignState extends State<AddCampaign> {
 
     super.initState();
     _campaignPostData = CampaignPostDto(
-      id: 1,
       chefDeFileId: 1,
       description: 'une campagne fictive',
       titre: 'Campagne Title',
-      heureDebut: {
-        'hour': 16,
-        'minute': 55,
-        'second': 0,
-      },
-      heureFin: {
-        'hour': 22,
-        'minute': 10,
-        'second': 0,
-      },
-      dateDebut: {
-        'day': 1,
-        'month': 1,
-        'year': 2023,
-      },
-      dateFin: {
-        'day': 4,
-        'month': 12,
-        'year': 2023,
-      },
+      // heureDebut: {
+      //   'hour': 16,
+      //   'minute': 55,
+      //   'second': 0,
+      // },
+      // heureFin: {
+      //   'hour': 22,
+      //   'minute': 10,
+      //   'second': 0,
+      // },
+      // dateDebut: {
+      //   'day': 1,
+      //   'month': 1,
+      //   'year': 2023,
+      // },
+      // dateFin: {
+      //   'day': 4,
+      //   'month': 12,
+      //   'year': 2023,
+      // },
     );
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      initialDate: DateTime.now(),
+      // initialDate: selectedDate,
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2025),
     );
 
-    if (picked != null && picked != selectedDate) {
+    if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
-        selectedDate = picked;
+        selectedDate = pickedDate;
+        _campaignPostData?.dateDebut = {
+          'day': pickedDate.day,
+          'month': pickedDate.month,
+          'year': pickedDate.year,
+        };
       });
     }
-
-    // if (picked != null && picked != selectedDate) {
-    //   setState(() {
-    //     selectedDate = picked;
-    //     _campaignPostData?.date = {
-    //       'day': picked.day,
-    //       'month': picked.month,
-    //       'year': picked.year,
-    //     };
-    //   });
-    // }
   }
-
 
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
+    final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: TimeOfDay.now(),
+      // initialTime: selectedTime,
     );
 
-    if (picked != null && picked != selectedTime) {
+    if (pickedTime != null && pickedTime != selectedTime) {
       setState(() {
-        selectedTime = picked;
+        selectedTime = pickedTime;
+        _campaignPostData?.heureDebut = {
+          'hour': pickedTime.hour,
+          'minute': pickedTime.minute,
+          'second': 0,
+        };
       });
     }
   }
-
 
   Future<void> _saveCampaign() async {
     const String apiUrl = 'http://192.168.137.216:8080/campagne';
@@ -153,7 +151,7 @@ class _AddCampaignState extends State<AddCampaign> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Campaign'),
+        title: Text('Ajouter une Campagne'),
         backgroundColor: Color.fromRGBO(237, 243, 255, 1.0),
       ),
       body: Container(
@@ -213,17 +211,40 @@ class _AddCampaignState extends State<AddCampaign> {
                   ),
                 ),
               ),
-
+              SizedBox(height: 20),
+              selectedDate != null
+                  ? Text(
+                'Date de début: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}',
+                      style: TextStyle(fontSize: 16),
+                    )
+                  : SizedBox.shrink(),
+              ElevatedButton(
+                onPressed: () => _selectDate(context),
+                child: Text('Sélectionner la date', style: TextStyle(color: Colors.black)),
+              ),
+              SizedBox(height: 20),
+              selectedTime != null
+                  ? Text(
+                      'Heure de début: ${selectedTime!.format(context)}',
+                      style: TextStyle(fontSize: 16),
+                    )
+                  : SizedBox.shrink(),
+              ElevatedButton(
+                onPressed: () => _selectTime(context),
+                child: Text('Sélectionner l\'heure', style: TextStyle(color: Colors.black)),
+              ),
               SizedBox(height: 20),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
                     onPressed: _saveCampaign,
-                    child: Text('Enregistrer', style: TextStyle(color: Colors.black)),
+                    child: Text('Enregistrer',
+                        style: TextStyle(color: Colors.black)),
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(255, 249, 236, 1.0),
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     ),
                   ),
                 ),
@@ -234,6 +255,4 @@ class _AddCampaignState extends State<AddCampaign> {
       ),
     );
   }
-
-
 }
