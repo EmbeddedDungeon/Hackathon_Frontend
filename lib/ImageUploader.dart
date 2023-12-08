@@ -18,7 +18,7 @@ class ImageUploader {
           Uri.parse(apiUrl),
           body: imageBytes,
           headers: <String, String>{
-            'Content-Type': 'image/png', // Укажите соответствующий Content-Type
+            // 'Content-Type': 'image/png', // Укажите соответствующий Content-Type
             'ficheId': ficheId.toString(), // Добавляем ficheId в заголовок запроса
           },
         );
@@ -27,7 +27,7 @@ class ImageUploader {
           print('Image uploaded successfully');
           uploadResults.add(true); // Если изображение было успешно загружено
         } else {
-          print('Failed to upload image: ${response.statusCode}');
+          print('Here Failed to upload image: ${response.statusCode} ${response.body}');
           uploadResults.add(false); // Если загрузка изображения не удалась
         }
       }

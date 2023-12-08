@@ -65,6 +65,7 @@ class _AddFicheState extends State<AddFiche> {
   LatLng? selectedLocation;
   List<XFile> images = [];
   FichePostDto? _fichePostData;
+  final FicheManager ficheManager = FicheManager();
 
   @override
   void initState() {
@@ -221,10 +222,12 @@ class _AddFicheState extends State<AddFiche> {
 
       if (response.statusCode == 200) {
         print('Fiche успешно сохранен!');
-        // Дополнительные действия после успешного сохранения, если нужно
+        int ficheId = json.decode(response.body);
+        print('Fiche post json response: $ficheId'); // Посмотреть содержимое ответа сервера
+
+        ficheManager.setFicheId(ficheId);
       } else {
         print('Ошибка сохранения Fiche: ${response.statusCode}');
-        // Обработка ошибки сохранения
       }
     } catch (e) {
       print('Ошибка при отправке запроса: $e');
