@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<int> sendPostRequest(String email) async {
-  var url = Uri.parse('http://192.168.137.216:8080/userAuth');
-  var headers = <String, String>{'email': email};
+  const String apiUrl = 'http://192.168.137.216:8080/userAuth';
+  var body = <String, String>{'email': email};
 
-  var response = await http.post(
-    url,
-    headers: headers,
+  http.Response response = await http.post(
+    Uri.parse(apiUrl),
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+    body: body,
   );
 
   if (response.statusCode == 200) {
@@ -17,6 +20,7 @@ Future<int> sendPostRequest(String email) async {
     return userId;
   } else {
     print('Request failed with status: ${response.statusCode}.');
-    throw Exception('Failed to fetch user ID'); // Добавлено исключение в случае ошибки
+    throw Exception(
+        'Failed to fetch user ID'); // Добавлено исключение в случае ошибки
   }
 }
