@@ -3,14 +3,14 @@ import 'package:http/http.dart' as http;
 
 Future<int> sendPostRequest(String email) async {
   const String apiUrl = 'http://192.168.137.216:8080/userAuth';
-  var body = jsonEncode({'email': email}); // Сериализация body в формат JSON
+  var userEmail = jsonEncode({'email': email}); // Сериализация body в формат JSON
 
   http.Response response = await http.post(
     Uri.parse(apiUrl),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
-    body: body,
+    body: userEmail,
   );
 
   if (response.statusCode == 200) {

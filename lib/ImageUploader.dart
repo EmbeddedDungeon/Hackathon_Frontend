@@ -1,12 +1,17 @@
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
+import 'assets/dto/GlobalVariables.dart';
+
 class ImageUploader {
   Future<List<bool>> uploadImages(List<File> images) async {
     const String apiUrl = 'http://192.168.137.216:8080/images'; // Укажите ваш адрес и порт
     List<bool> uploadResults = [];
+    final FicheManager ficheManager = FicheManager();
 
     try {
+      int? ficheId = ficheManager.getFicheId();
+
       for (var image in images) {
         List<int> imageBytes = await image.readAsBytes();
         var response = await http.post(
@@ -14,6 +19,7 @@ class ImageUploader {
           body: imageBytes,
           headers: <String, String>{
             'Content-Type': 'image/png', // Укажите соответствующий Content-Type
+            'ficheId': ficheId.toString(), // Добавляем ficheId в заголовок запроса
           },
         );
 
