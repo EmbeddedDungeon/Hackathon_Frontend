@@ -12,6 +12,7 @@ import 'ImageUploader.dart';
 import 'assets/dto/FichePostDto.dart';
 import 'assets/dto/GlobalVariables.dart';
 import 'package:provider/provider.dart';
+
 // class ImageUploader {
 //   Future<bool> uploadImages(List<File> images) async {
 //     const String serverAddress = '192.168.137.216';
@@ -75,7 +76,7 @@ class _AddFicheState extends State<AddFiche> {
 
     super.initState();
     _fichePostData = FichePostDto(
-      userId: userID,/////////////////////////////////получение userID
+      userId: userID,
       campagneId: 1,
       groupId: 1,
       description: "Default description",
@@ -137,7 +138,6 @@ class _AddFicheState extends State<AddFiche> {
     //   });
     // }
   }
-
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -232,14 +232,13 @@ class _AddFicheState extends State<AddFiche> {
     }
     ImageUploader uploader = ImageUploader();
 
-      if (images.isNotEmpty) {
-        // Преобразование списка XFile в список File
-        List<File> files = convertXFilesToFiles(images);
+    if (images.isNotEmpty) {
+      // Преобразование списка XFile в список File
+      List<File> files = convertXFilesToFiles(images);
 
-        // Загрузка изображений на сервер с помощью ImageUploader
-        await uploader.uploadImages(files);
-
-      }
+      // Загрузка изображений на сервер с помощью ImageUploader
+      await uploader.uploadImages(files);
+    }
     // Закрытие экрана AddFiche
     // Navigator.pop(context);
 
@@ -253,7 +252,6 @@ class _AddFicheState extends State<AddFiche> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -320,58 +318,64 @@ class _AddFicheState extends State<AddFiche> {
                 ),
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _selectLocation,
-                child: Text('Ajouter une localisation', style: TextStyle(color: Colors.black)),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(255, 249, 236, 1.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _selectLocation,
+                  child: Text('Ajouter une localisation',
+                      style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(255, 249, 236, 1.0),
+                  ),
                 ),
               ),
               SizedBox(height: 10),
               selectedLocation != null
                   ? Text(
-                'Localisation sélectionnée : ${selectedLocation!.latitude}, ${selectedLocation!.longitude}',
-                style: TextStyle(fontSize: 16),
-              )
+                      'Localisation sélectionnée : ${selectedLocation!.latitude}, ${selectedLocation!.longitude}',
+                      style: TextStyle(fontSize: 16),
+                    )
                   : Container(),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _pickImages,
-                child: Text('Ajouter une photo', style: TextStyle(color: Colors.black)),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(255, 249, 236, 1.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _pickImages,
+                  child: Text('Ajouter une photo',
+                      style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(255, 249, 236, 1.0),
+                  ),
                 ),
               ),
               SizedBox(height: 10),
               images.isNotEmpty
                   ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: images.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final image = entry.value;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Stack(
-                      children: [
-                        Image.file(
-                          File(image.path),
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () => _removeImage(index),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: images.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final image = entry.value;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Stack(
+                            children: [
+                              Image.file(
+                                File(image.path),
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () => _removeImage(index),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              )
+                        );
+                      }).toList(),
+                    )
                   : Container(),
               SizedBox(height: 20),
               Expanded(
@@ -379,10 +383,12 @@ class _AddFicheState extends State<AddFiche> {
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
                     onPressed: _saveFiche,
-                    child: Text('Enregistrer', style: TextStyle(color: Colors.black)),
+                    child: Text('Enregistrer',
+                        style: TextStyle(color: Colors.black)),
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(255, 249, 236, 1.0),
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     ),
                   ),
                 ),
@@ -393,6 +399,4 @@ class _AddFicheState extends State<AddFiche> {
       ),
     );
   }
-
-
 }
