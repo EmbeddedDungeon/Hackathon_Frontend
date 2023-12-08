@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 Future<int> sendPostRequest(String email) async {
   const String apiUrl = 'http://192.168.137.216:8080/userAuth';
-  var body = <String, String>{'email': email};
+  var body = jsonEncode({'email': email}); // Сериализация body в формат JSON
 
   http.Response response = await http.post(
     Uri.parse(apiUrl),
