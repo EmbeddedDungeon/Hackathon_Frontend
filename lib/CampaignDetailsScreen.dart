@@ -116,7 +116,8 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CampaignDetailsScreen(_campaignDetails!.campagneId),
+                    builder: (context) =>
+                        CampaignDetailsScreen(_campaignDetails!.campagneId),
                   ),
                 );
               },
@@ -156,6 +157,73 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
         // Обработка ошибки при отправке запроса
         print('Ошибка при отправке запроса: $e');
       }
+    }
+  }
+
+  Future<void> _showAddCommuneDialog() async {
+    String? communeName;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ajouter une commune'),
+          content: TextField(
+            onChanged: (value) {
+              communeName = value;
+            },
+            decoration: InputDecoration(
+              labelText: 'Nom de la commune',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Annuler'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Ajouter'),
+              onPressed: () async {
+                if (communeName != null && communeName!.isNotEmpty) {
+                  await _addCommuneToCampaign(communeName!);
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _addCommuneToCampaign(String communeName) async {
+    final url = Uri.parse('http://192.168.137.216:8080/commune');
+    final Map<String, dynamic> communeData = {
+      'name': communeName,
+      'campagneId': _campaignDetails!.campagneId,
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        body: jsonEncode(communeData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Коммуна успешно добавлена в кампанию');
+        setState(() {
+          _campaignDetails!.communes.add(Communes(id: 0, nom: communeName));
+        });
+      } else {
+        print('Ошибка добавления коммуны в кампанию: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Ошибка при отправке запроса: $e');
     }
   }
 
@@ -280,12 +348,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                     SizedBox(height: 10),
                     Center(
                       child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _campaignDetails!.communes.add(
-                                Communes(id: 3, nom: "La nouvelle commune"));
-                          });
-                        },
+                        onPressed: _showAddCommuneDialog,
                         child: Text("Ajouter une commune",
                             style: TextStyle(color: Colors.black)),
                         style: ElevatedButton.styleFrom(

@@ -89,7 +89,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                       Navigator.pop(context, selectedLocation);
                     }
                   },
-                  child: const Text('Принять'),
+                  child: const Text('Enregistrer'),
                 ),
               ),
             ),
