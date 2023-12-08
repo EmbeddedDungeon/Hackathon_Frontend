@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'assets/dto/GlobalVariables.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'ListOfCampaignsScreen.dart';
 import 'main.dart';
-
+import 'SendEmailToServer.dart';
+import 'package:provider/provider.dart';
 class AuthenticationScreen extends StatefulWidget {
   @override
   _AuthenticationScreenState createState() => _AuthenticationScreenState();
@@ -14,7 +16,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String? _errorMessage;
-
+  int UserID = 0;
   Future<void> initializeFirebase() async {
     try {
       await Firebase.initializeApp(
@@ -45,12 +47,21 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       final user = userCredential.user;
       // ...
 
+     ;
       // // COMMENT
       // final user = "test-user";
 
       if (user != null) {
-        //send in DB this user.uid; fjr db check it in firebase fron firebase admin
+        print(user.email);
+        print(user.uid);
+        email = "chef@deux";
+        UserID = await sendPostRequest(email);
 
+
+        UserManager userManager = UserManager();
+        userManager.setUserId(UserID);
+
+        //send in DB this user.uid; fjr db check it in firebase fron firebase admin
         //if (user.email == 'user1@example.com') {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => ListOfCompaignsScreen(),

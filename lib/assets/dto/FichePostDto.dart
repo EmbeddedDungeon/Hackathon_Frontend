@@ -10,7 +10,7 @@ class FichePostDto {
   late Map<String, int>? time;
 
   FichePostDto({
-    this.userId = 1,
+    required this.userId,
     required this.campagneId,
     required this.groupId,
     required this.description,

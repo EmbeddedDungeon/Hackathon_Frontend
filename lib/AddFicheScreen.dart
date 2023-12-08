@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http; // Добавляем импорт дл
 import 'ImageUploader.dart';
 import 'assets/dto/FichePostDto.dart';
 import 'assets/dto/GlobalVariables.dart';
-
+import 'package:provider/provider.dart';
 // class ImageUploader {
 //   Future<bool> uploadImages(List<File> images) async {
 //     const String serverAddress = '192.168.137.216';
@@ -70,9 +70,12 @@ class _AddFicheState extends State<AddFiche> {
     DateTime now = DateTime.now();
     TimeOfDay currentTime = TimeOfDay.now();
 
+    UserManager userManager = UserManager();
+    int userID = userManager.getUserId()!;
+
     super.initState();
     _fichePostData = FichePostDto(
-      userId: 1,
+      userId: userID,/////////////////////////////////получение userID
       campagneId: 1,
       groupId: 1,
       description: "Default description",

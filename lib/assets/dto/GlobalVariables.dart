@@ -23,3 +23,13 @@ class CampagneManager {
     return GlobalVariables.globalValues['campagneId'];
   }
 }
+
+class UserManager {
+  void setUserId(int userId) {
+    GlobalVariables.globalValues['userId'] = userId;
+  }
+
+  int? getUserId() {
+    return GlobalVariables.globalValues['userId'];
+  }
+}
