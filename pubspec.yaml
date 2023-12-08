@@ -48,10 +48,7 @@ dependencies:
   firebase_core: ^2.17.0
   firebase_auth: ^4.10.1
   firebase_admin: ^0.2.0
-  flutter_signature_pad: ^3.0.1
-  signature: ^5.4.0
   image_picker: ^1.0.4
-  google_maps_flutter: ^2.5.0
 
 dev_dependencies:
   flutter_test:

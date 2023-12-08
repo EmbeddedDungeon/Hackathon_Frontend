@@ -39,9 +39,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
         // // COMMENT
-         email: "chef@deux.com", password: "qwerty",
-        //email: email,
-        //password: password,
+         //email: "chef@deux.com", password: "qwerty",
+        email: email,
+        password: password,
       );
 
       final user = userCredential.user;
@@ -54,7 +54,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       if (user != null) {
         print(user.email);
         print(user.uid);
-        email = "chef@deux.com";
+        // email = "chef@deux.com";
         UserID = await sendPostRequest(email);
 
 

@@ -100,7 +100,6 @@ class _MapScreenState extends State<MapScreen> {
     if (fetchedCoords != null) {
 
     } else {
-      // Обработка ошибки при получении координат
       print('Failed to fetch coordinates');
     }
   }

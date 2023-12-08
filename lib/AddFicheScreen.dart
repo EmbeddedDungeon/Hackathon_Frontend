@@ -182,25 +182,7 @@ class _AddFicheState extends State<AddFiche> {
   Future<void> _saveFiche() async {
     const String apiUrl = 'http://192.168.137.216:8080/fiche';
 
-    // late FichePostDto _fichePostData = FichePostDto(
-    //   userId: 1,
-    //   campagneId: 1,
-    //   groupId: 1,
-    //   description: "Default description",
-    //   familyName: "Default family name",
-    //   coordX: 5.25454,
-    //   coordY: 6.21485,
-    //   date: {
-    //     'day': now.day,
-    //     'month': now.month,
-    //     'year': now.year,
-    //   },
-    //   time: {
-    //     'hour': currentTime.hour,
-    //     'minute': currentTime.minute,
-    //     'second': 0,
-    //   },
-    // );
+
 
     GroupManager groupManager = GroupManager();
     _fichePostData?.groupId = groupManager.getGroupId()!;
