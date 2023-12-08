@@ -4,19 +4,19 @@ import 'package:http/http.dart' as http;
 class PhotDTOparam {
   final int ficheId;
   final int id;
-  final String localPath;
+  final String fileName;
 
   PhotDTOparam({
     required this.ficheId,
     required this.id,
-    required this.localPath,
+    required this.fileName,
   });
 
   factory PhotDTOparam.fromJson(Map<String, dynamic> json) {
     return PhotDTOparam(
       ficheId: json['ficheId'] as int,
       id: json['id'] as int,
-      localPath: json['localPath'] as String,
+      fileName: json['fileName'] as String,
     );
   }
 
@@ -30,6 +30,7 @@ class PhotDTOparam {
       var response = await http.get(Uri.parse(url), headers: headers);
 
       if (response.statusCode == 200) {
+        print("photo get 200 code");
         List<dynamic> photoJsonList = json.decode(response.body);
 
         if (photoJsonList.isEmpty) {
@@ -61,7 +62,7 @@ class AnotherClass {
     // Например, вы можете распечатать информацию о полученных фотографиях
     print('Received photos:');
     for (var photo in fetchedPhotos) {
-      print('ficheId: ${photo.ficheId}, id: ${photo.id}, localPath: ${photo.localPath}');
+      print('ficheId: ${photo.ficheId}, id: ${photo.id}, fileName: ${photo.fileName}');
     }
   }
 }
