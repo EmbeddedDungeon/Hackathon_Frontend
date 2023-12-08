@@ -307,7 +307,7 @@ class _AddFicheState extends State<AddFiche> {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
-                      labelText: 'Description',
+                      labelText: 'Type d\'animal',
                       labelStyle: TextStyle(
                         color: Colors.black54,
                       ),

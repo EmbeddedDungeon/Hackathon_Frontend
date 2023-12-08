@@ -86,7 +86,7 @@ class _FicheScreenState extends State<FicheScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Type d'animal : ${_ficheDetails?.familyName}"),
+        title: Text("Famille : ${_ficheDetails?.familyName}"),
       ),
       body: _ficheDetails == null
           ? Center(
@@ -112,7 +112,7 @@ class _FicheScreenState extends State<FicheScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Description",
+                        "Type d\'animal",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -169,7 +169,7 @@ class _FicheScreenState extends State<FicheScreen> {
                       ),
                       SizedBox(
                         // Comments list with scrollbar
-                        height: MediaQuery.of(context).size.height * 0.6,
+                        // height: MediaQuery.of(context).size.height * 0.6,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: _ficheDetails!.commentaires.length,
