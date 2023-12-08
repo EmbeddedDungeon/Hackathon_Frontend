@@ -32,6 +32,8 @@ class PhotDTOparam {
       if (response.statusCode == 200) {
         print("photo get 200 code");
         List<dynamic> photoJsonList = json.decode(response.body);
+        print("List of photo ids");
+        print(photoJsonList);
 
         if (photoJsonList.isEmpty) {
           print('The photo list is empty');
