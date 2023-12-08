@@ -19,8 +19,8 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
   @override
   void initState() {
     _mapController = MapController();
-    super.initState();
     _takeUserGPSCoord(); // Получаем координаты пользователя при инициализации экрана
+    super.initState();
   }
 
   void _takeUserGPSCoord() async {
@@ -30,13 +30,15 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
       setState(() {
         coordUserLatitude = currentPosition.latitude;
         coordUserLongitude = currentPosition.longitude;
-        _mapController.move(LatLng(coordUserLatitude, coordUserLongitude), 10.0); // Перемещаем карту к текущим координатам пользователя
+        selectedLocation = LatLng(coordUserLatitude, coordUserLongitude); // Устанавливаем выбранную позицию на текущие координаты пользователя
+        _mapController.move(selectedLocation!, 10.0); // Перемещаем карту к текущим координатам пользователя
       });
       print('Latitude: $coordUserLatitude, Longitude: $coordUserLongitude');
     } catch (e) {
       print('Error getting location: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,8 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
 
   void _handleMapTap(LatLng latLng) {
     setState(() {
-      selectedLocation = latLng;
+      selectedLocation = latLng; // Обновляем выбранную позицию на место, куда пользователь нажал на карту
+      _mapController.move(latLng, _mapController.zoom); // Перемещаем карту к новым координатам
     });
   }
 }
