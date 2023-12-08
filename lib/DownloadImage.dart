@@ -13,8 +13,8 @@ class DownloadImage {
     if (response.statusCode == 200) {
       return response.bodyBytes;
     } else {
-      print('Failed to upload image: ${response.statusCode}');
-      throw Exception('Failed to upload image: ${response.statusCode}');
+      print('Failed to upload image (fetchImageByNumber): ${response.statusCode}');
+      throw Exception('Failed to upload image (fetchImageByNumber): ${response.statusCode}');
     }
   }
 }
