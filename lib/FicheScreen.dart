@@ -3,7 +3,7 @@ import 'assets/dto/FicheDto.dart';
 import 'package:http/http.dart' as http;
 import 'DownloadImage.dart';
 import 'dart:typed_data';
-
+import 'GetListPhotosID.dart';
 
 class FicheScreen extends StatefulWidget {
   final int ficheId;
@@ -73,15 +73,26 @@ class _FicheScreenState extends State<FicheScreen> {
 
   Future<void> loadImage() async {
     DownloadImage imageFetcher = DownloadImage();
+
     try {
-      List<int> imageData = await imageFetcher.fetchImageByNumber(123); // Номер изображения
-      setState(() {
-        _imageData = imageData;
-      });
+      // Вызываем fetchData с параметром 1
+      List<PhotDTOparam> fetchedPhotos = await PhotDTOparam.fetchData(widget.ficheId);
+
+      // Обрабатываем каждую фотографию
+      for (var photo in fetchedPhotos) {
+        // Выполняем запрос для каждой фотографии
+        List<int> imageData = await imageFetcher.fetchImageByNumber(photo.ficheId);
+
+        // Например, можно использовать imageData или сохранить его в состояние
+        setState(() {
+          _imageData = imageData;
+        });
+      }
     } catch (e) {
       print('Failed to load image: $e');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
