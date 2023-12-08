@@ -94,7 +94,7 @@ class _FicheScreenState extends State<FicheScreen> {
       for (var photo in fetchedPhotos) {
         // Выполняем запрос для каждой фотографии
         List<int> imageData =
-            await imageFetcher.fetchImageByNumber(photo.ficheId);
+            await imageFetcher.fetchImageByNumber(photo.ficheId, photo.fileName);
 
         // Например, можно использовать imageData или сохранить его в состояние
         setState(() {
