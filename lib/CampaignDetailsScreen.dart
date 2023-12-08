@@ -111,16 +111,14 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
             ),
             TextButton(
               child: Text('Ajouter'),
-              onPressed: () {
-                // Add logic to add selected group to the campaign
-                // Here you can call a method to add the selected group to the campaign
-                _addGroupToCampaign(_selectedGroup);
-                // Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CampaignDetailsScreen(
-                            _campaignDetails!.campagneId)));
+              onPressed: () async {
+                await _addGroupToCampaign(_selectedGroup);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CampaignDetailsScreen(_campaignDetails!.campagneId),
+                  ),
+                );
               },
             ),
           ],

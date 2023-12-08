@@ -86,7 +86,7 @@ class _FicheScreenState extends State<FicheScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Type d'animal : ${_ficheDetails?.familyName}"),
+        title: Text("Famille : ${_ficheDetails?.familyName}"),
       ),
       body: _ficheDetails == null
           ? Center(
@@ -112,7 +112,7 @@ class _FicheScreenState extends State<FicheScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Description",
+                        "Type d\'animal",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
