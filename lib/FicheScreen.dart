@@ -169,7 +169,7 @@ class _FicheScreenState extends State<FicheScreen> {
                       ),
                       SizedBox(
                         // Comments list with scrollbar
-                        height: MediaQuery.of(context).size.height * 0.6,
+                        // height: MediaQuery.of(context).size.height * 0.6,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: _ficheDetails!.commentaires.length,
