@@ -33,18 +33,20 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
   Future<void> signInWithFirebase(String email, String password) async {
     try {
-      // // UNCOMMENT
-      // UserCredential userCredential =
-      //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-      //   email: "user1@example.com", password: "user1@example.com",
-      //   //email: email,
-      //   //password: password,
-      // );
-      //
-      // final user = userCredential.user;
+      // UNCOMMENT
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        // // COMMENT
+         email: "user1@example.com", password: "user1@example.com",
+        //email: email,
+        //password: password,
+      );
+
+      final user = userCredential.user;
       // ...
 
-      final user = "test-user";
+      // // COMMENT
+      // final user = "test-user";
 
       if (user != null) {
         //send in DB this user.uid; fjr db check it in firebase fron firebase admin
@@ -61,97 +63,6 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       });
     }
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text("Authentication"),
-  //       backgroundColor: Color.fromRGBO(220, 220, 220, 1.0),
-  //     ),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: <Widget>[
-  //           Padding(
-  //             padding: const EdgeInsets.only(bottom: 0.0),
-  //             child: Image.asset(
-  //               'lib/assets/images/logo.png',
-  //               width: 100,
-  //             ),
-  //           ),
-  //           if (_errorMessage != null)
-  //             Text(
-  //               _errorMessage!,
-  //               style: TextStyle(color: Colors.red),
-  //             ),
-  //
-  //           SizedBox(height: 20), // space between elements
-  //
-  //           TextField(
-  //             controller: _usernameController,
-  //             cursorColor: Colors.lightGreen,
-  //             decoration: InputDecoration(
-  //               labelText: 'Username',
-  //               labelStyle: TextStyle(
-  //                 color: Colors.grey, // caption
-  //               ),
-  //               border: OutlineInputBorder(),
-  //               focusedBorder: OutlineInputBorder(
-  //                 borderSide: BorderSide(
-  //                   color: Colors.lightGreen,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //
-  //           SizedBox(height: 20),
-  //
-  //           TextField(
-  //             controller: _passwordController,
-  //             cursorColor: Colors.lightGreen,
-  //             obscureText: true,
-  //             decoration: InputDecoration(
-  //               labelText: 'Password',
-  //               labelStyle: TextStyle(
-  //                 color: Colors.grey, // caption
-  //               ),
-  //               border: OutlineInputBorder(),
-  //               focusedBorder: OutlineInputBorder(
-  //                 borderSide: BorderSide(
-  //                   color: Colors.lightGreen,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //
-  //           SizedBox(height: 20),
-  //           ElevatedButton(
-  //             onPressed: () {
-  //               final username = _usernameController.text;
-  //               final password = _passwordController.text;
-  //               signInWithFirebase(username, password);
-  //             },
-  //             style: ElevatedButton.styleFrom(
-  //               primary: Colors.lightBlue,
-  //               // Цвет кнопки
-  //               onPrimary: Colors.white,
-  //               // Цвет текста кнопки
-  //               minimumSize: Size(double.infinity, 50),
-  //               // Ширина кнопки на весь экран
-  //               shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(10),
-  //               ),
-  //               elevation: 3, // shadow
-  //             ),
-  //             child: Text('Sign in', style: TextStyle(fontSize: 20)),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +87,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   padding: const EdgeInsets.only(bottom: 0.0),
                   child: Image.asset(
                     'lib/assets/images/logo.png',
-                    width: 100,
+                    width: 200,
                   ),
                 ),
                 if (_errorMessage != null)
@@ -184,9 +95,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     _errorMessage!,
                     style: TextStyle(color: Colors.red),
                   ),
-
                 SizedBox(height: 20),
-
                 Card(
                   elevation: 3,
                   color: Color.fromRGBO(252, 252, 252, 1),
@@ -205,9 +114,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 20),
-
                 Card(
                   elevation: 3,
                   color: Color.fromRGBO(252, 252, 252, 1),
@@ -227,9 +134,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 20),
-
                 ElevatedButton(
                   onPressed: () {
                     final username = _usernameController.text;
